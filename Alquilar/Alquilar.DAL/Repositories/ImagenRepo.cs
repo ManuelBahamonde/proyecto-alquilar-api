@@ -54,6 +54,8 @@ namespace Alquilar.DAL
 
             imagen.IdImagen = newImagen.IdImagen;
             imagen.Url = newImagen.Url;
+            imagen.IdUsuario = newImagen.IdUsuario;
+            imagen.IdInmueble = newImagen.IdInmueble;
         }
 
         public void DeleteImagen(int idImagen)

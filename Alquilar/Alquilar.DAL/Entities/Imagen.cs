@@ -8,5 +8,15 @@ namespace Alquilar.DAL
         [Key]
         public int IdImagen{ get; set; }
         public string Url { get; set; }
+        
+        public int? IdUsuario { get; set; }
+        
+        [ForeignKey("IdUsuario")]
+        public Usuario Usuario { get; set; }
+       
+        public int? IdInmueble { get; set; }
+        
+        [ForeignKey("IdInmueble")]
+        public Inmueble Inmueble { get; set; }
     }
 }

@@ -35,6 +35,8 @@ namespace Alquilar.Services
             var imagenModel = new Imagen
             {
                 Url = imagen.Url,
+                IdUsuario = imagen.IdUsuario,
+                IdInmueble = imagen.IdInmueble,
             };
 
             _imagenRepo.CreateImagen(imagenModel);
@@ -60,6 +62,8 @@ namespace Alquilar.Services
             var imagenModel = new Imagen
             {
                 Url = imagen.Url,
+                IdUsuario = imagen.IdUsuario,
+                IdInmueble = imagen.IdInmueble,
             };
 
             _imagenRepo.UpdateImagen(idImagen, imagenModel);

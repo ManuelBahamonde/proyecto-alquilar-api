@@ -10,5 +10,10 @@ namespace Alquilar.Models
     {
         public int? IdImagen { get; set; }
         public string Url { get; set; }
+
+        public int? IdUsuario { get; set; }
+
+        public int? IdInmueble { get; set; }
+
     }
 }

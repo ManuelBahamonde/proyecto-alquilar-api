@@ -36,6 +36,8 @@ namespace Alquilar.API.Controllers
             {
                 IdImagen = x.IdImagen,
                 Url = x.Url,
+                IdUsuario = x.IdUsuario,
+                IdInmueble = x.IdInmueble,
             }).ToList();
 
             return Ok(formattedImagens);
@@ -76,6 +78,8 @@ namespace Alquilar.API.Controllers
             {
                 IdImagen = imagenModel.IdImagen,
                 Url = imagenModel.Url,
+                IdUsuario = imagenModel.IdUsuario,
+                IdInmueble = imagenModel.IdInmueble,
             });
         }
 
