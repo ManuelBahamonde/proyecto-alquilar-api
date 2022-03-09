@@ -49,7 +49,6 @@ namespace Alquilar.Services
                 Servicio = usuario.Servicio,
                 UrlApi = usuario.UrlApi,
                 IdRol = usuario.IdRol,
-                IdImagen = usuario.IdImagen,
                 IdLocalidad = usuario.IdLocalidad
         };
 
@@ -85,7 +84,6 @@ namespace Alquilar.Services
                 Servicio = usuario.Servicio,
                 UrlApi = usuario.UrlApi,
                 IdRol = usuario.IdRol,
-                IdImagen = usuario.IdImagen,
                 IdLocalidad = usuario.IdLocalidad
             };
 

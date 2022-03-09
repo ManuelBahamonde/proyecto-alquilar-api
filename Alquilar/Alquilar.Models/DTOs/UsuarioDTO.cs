@@ -19,7 +19,6 @@ namespace Alquilar.Models
         public string Servicio { get; set; }
         public string UrlApi { get; set; }
         public int IdRol { get; set; }
-        public int IdImagen { get; set; }
         public int IdLocalidad { get; set; }
     }
 }

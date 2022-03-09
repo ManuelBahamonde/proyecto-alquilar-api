@@ -26,7 +26,6 @@ namespace Alquilar.DAL
             var usuarios = _db
                 .Usuario
                 .Include(x => x.Rol)
-                .Include(x => x.Imagen)
                 .Include(x => x.Localidad)
                 .ToList();
 
@@ -38,7 +37,6 @@ namespace Alquilar.DAL
             var usuario = _db
                 .Usuario
                 .Include(x => x.Rol)
-                .Include(x => x.Imagen)
                 .Include(x => x.Localidad)
                 .FirstOrDefault(x => x.IdUsuario == idUsuario);
 
@@ -74,7 +72,6 @@ namespace Alquilar.DAL
             usuario.Servicio = newUsuario.Servicio; 
             usuario.UrlApi = newUsuario.UrlApi;
             usuario.IdRol = newUsuario.IdRol;
-            usuario.IdImagen = newUsuario.IdImagen;
             usuario.IdLocalidad = newUsuario.IdLocalidad;
 
         }

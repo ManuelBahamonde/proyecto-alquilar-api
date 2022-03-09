@@ -20,10 +20,6 @@ namespace Alquilar.DAL
 
         [ForeignKey("IdRol")]
         public Rol Rol { get; set; }
-        public int IdImagen { get; set; }
-
-        [ForeignKey("IdImagen")]
-        public Imagen Imagen { get; set; }
         public int IdLocalidad { get; set; }
 
         [ForeignKey("IdLocalidad")]

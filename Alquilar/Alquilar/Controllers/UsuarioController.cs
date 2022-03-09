@@ -46,7 +46,6 @@ namespace Alquilar.API.Controllers
                 Servicio = x.Servicio,
                 UrlApi = x.UrlApi,
                 IdRol = x.IdRol,
-                IdImagen = x.IdImagen,
                 IdLocalidad = x.IdLocalidad
         }).ToList();
 
@@ -98,7 +97,6 @@ namespace Alquilar.API.Controllers
                 Servicio = usuarioModel.Servicio,
                 UrlApi = usuarioModel.UrlApi,
                 IdRol = usuarioModel.IdRol,
-                IdImagen = usuarioModel.IdImagen,
                 IdLocalidad = usuarioModel.IdLocalidad
             });
         }
