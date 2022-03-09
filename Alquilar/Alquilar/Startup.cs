@@ -41,6 +41,7 @@ namespace Alquilar
 
             #region Services
             services.AddScoped<LocalidadService>();
+            services.AddScoped<ProvinciaService>();
             #endregion
 
             services.AddControllers();

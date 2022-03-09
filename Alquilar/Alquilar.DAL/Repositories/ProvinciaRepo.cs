@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Alquilar.Helpers.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,6 +40,30 @@ namespace Alquilar.DAL
                 throw new ArgumentNullException(nameof(provincia));
 
             _db.Provincia.Add(provincia);
+        }
+
+        public void UpdateProvincia(int idProvincia, Provincia newProvincia)
+        {
+            if (newProvincia == null)
+                throw new ArgumentNullException(nameof(newProvincia));
+
+            var provincia = _db.Provincia.FirstOrDefault(l => l.IdProvincia == idProvincia);
+
+            if (provincia is null)
+                throw new NotFoundException("No existe la Provincia especificada");
+
+            provincia.IdProvincia = newProvincia.IdProvincia;
+            provincia.Nombre = newProvincia.Nombre;
+        }
+
+        public void DeleteProvincia(int idProvincia)
+        {
+            var provincia = _db.Provincia.FirstOrDefault(l => l.IdProvincia == idProvincia);
+
+            if (provincia is null)
+                throw new NotFoundException("No existe la Provincia especificada");
+
+            _db.Provincia.Remove(provincia);
         }
 
         public void SaveChanges()

@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Provincia\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Alquilar.DAL\Alquilar.DAL.csproj" />
     <ProjectReference Include="..\Alquilar.Models\Alquilar.Models.csproj" />
   </ItemGroup>

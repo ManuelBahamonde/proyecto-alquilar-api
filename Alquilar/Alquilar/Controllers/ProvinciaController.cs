@@ -1,5 +1,7 @@
 ﻿using Alquilar.DAL;
+using Alquilar.Helpers.Exceptions;
 using Alquilar.Models;
+using Alquilar.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -14,13 +16,13 @@ namespace Alquilar.API.Controllers
     public class ProvinciaController : ControllerBase
     {
         #region Members
-        private readonly ProvinciaRepo _provinciaRepo;
+        private readonly ProvinciaService _provinciaService;
         #endregion
 
         #region Constructor
-        public ProvinciaController(ProvinciaRepo provinciaRepo)
+        public ProvinciaController(ProvinciaService provinciaService)
         {
-            _provinciaRepo = provinciaRepo;
+            _provinciaService = provinciaService;
         }
         #endregion
 
@@ -28,7 +30,7 @@ namespace Alquilar.API.Controllers
         [HttpGet]
         public IActionResult GetProvincias()
         {
-            var provincias = _provinciaRepo.GetProvincias();
+            var provincias = _provinciaService.GetProvincias();
 
             var formattedProvincias = provincias.Select(x => new ProvinciaDTO
             {
@@ -42,34 +44,53 @@ namespace Alquilar.API.Controllers
         [HttpPost]
         public IActionResult CreateProvincia(ProvinciaDTO provincia)
         {
-            if (provincia is null)
-                return BadRequest("Solicitud no válida");
-
-            if (string.IsNullOrEmpty(provincia.Nombre))
-                return BadRequest("El nombre de localidad espcificado no es valido.");
-
-            var provinciaModel = new Provincia
-            {
-                Nombre = provincia.Nombre,
-            };
-
             try
             {
-                _provinciaRepo.CreateProvincia(provinciaModel);
-                _provinciaRepo.SaveChanges();
+                var newProvincia = _provinciaService.CreateProvincia(provincia);
+
+                // TODO: I'm not sure if this response is correct according to REST principles
+                return CreatedAtRoute(nameof(GetProvincia), new { idProvincia = newProvincia.IdProvincia}, newProvincia);
+            }
+            catch (ArgumentException exc)
+            {
+                return BadRequest(new ResponseError
+                {
+                    Message = exc.Message,
+                });
             }
             catch
             {
                 return StatusCode(500);
             }
 
-            return CreatedAtRoute(nameof(GetProvincia), new { idProvincia = provinciaModel.IdProvincia }, provinciaModel);
+            //if (provincia is null)
+            //    return BadRequest("Solicitud no válida");
+
+            //if (string.IsNullOrEmpty(provincia.Nombre))
+            //    return BadRequest("El nombre de provincia espcificado no es valido.");
+
+            //var provinciaModel = new Provincia
+            //{
+            //    Nombre = provincia.Nombre,
+            //};
+
+            //try
+            //{
+            //    _provinciaService.CreateProvincia(provinciaModel);
+            //    _provinciaService.SaveChanges();
+            //}
+            //catch
+            //{
+            //    return StatusCode(500);
+            //}
+
+            //return CreatedAtRoute(nameof(GetProvincia), new { idProvincia = provinciaModel.IdProvincia }, provinciaModel);
         }
 
         [HttpGet("{idProvincia}", Name = "GetProvincia")]
         public IActionResult GetProvincia(int idProvincia)
         {
-            var provinciaModel = _provinciaRepo.GetProvinciaById(idProvincia);
+            var provinciaModel = _provinciaService.GetProvinciaById(idProvincia);
 
             if (provinciaModel is null)
                 return NotFound();
@@ -80,6 +101,70 @@ namespace Alquilar.API.Controllers
                 Nombre = provinciaModel.Nombre,
             });
         }
+
+
+
+        [HttpPut("{idProvincia}")]
+        public IActionResult UpdateProvincia(int idProvincia, ProvinciaDTO provincia)
+        {
+            try
+            {
+                _provinciaService.UpdateProvincia(idProvincia, provincia);
+
+                // TODO: I'm not sure if this response is correct according to REST principles
+                return NoContent();
+            }
+            catch (ArgumentException exc)
+            {
+                return BadRequest(new ResponseError
+                {
+                    Message = exc.Message,
+                });
+            }
+            catch (NotFoundException exc)
+            {
+                return NotFound(new ResponseError
+                {
+                    Message = exc.Message,
+                });
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
+        }
+
+        [HttpDelete("{idProvincia}")]
+        public IActionResult DeleteLocalidad(int idProvincia)
+        {
+            try
+            {
+                _provinciaService.DeleteProvincia(idProvincia);
+
+                // TODO: I'm not sure if this response is correct according to REST principles
+                return NoContent();
+            }
+            catch (ArgumentException exc)
+            {
+                return BadRequest(new ResponseError
+                {
+                    Message = exc.Message,
+                });
+            }
+            catch (NotFoundException exc)
+            {
+                return NotFound(new ResponseError
+                {
+                    Message = exc.Message,
+                });
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
+        }
+
+
         #endregion
     }
 }
