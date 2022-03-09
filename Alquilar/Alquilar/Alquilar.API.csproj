@@ -10,8 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Alquilar.DAL\Alquilar.DAL.csproj" />
     <ProjectReference Include="..\Alquilar.Models\Alquilar.Models.csproj" />
+    <ProjectReference Include="..\Alquilar.Services\Alquilar.Services.csproj" />
   </ItemGroup>
 
 </Project>

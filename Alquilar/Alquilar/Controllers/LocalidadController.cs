@@ -1,5 +1,7 @@
 ﻿using Alquilar.DAL;
+using Alquilar.Helpers.Exceptions;
 using Alquilar.Models;
+using Alquilar.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -14,21 +16,22 @@ namespace Alquilar.API.Controllers
     public class LocalidadController : ControllerBase
     {
         #region Members
-        private readonly LocalidadRepo _localidadRepo;
+        private readonly LocalidadService _localidadService;
         #endregion
 
         #region Constructor
-        public LocalidadController(LocalidadRepo localidadRepo)
+        public LocalidadController(LocalidadService localidadService)
         {
-            _localidadRepo = localidadRepo;
+            _localidadService = localidadService;
         }
         #endregion
 
+        // TODO: avoid repeating try catches. Find a way to make endpoints code to be inside a global try catch
         #region Endpoints
         [HttpGet]
         public IActionResult GetLocalidades()
         {
-            var localidades = _localidadRepo.GetLocalidades();
+            var localidades = _localidadService.GetLocalidades();
 
             var formattedLocalidades = localidades.Select(x => new LocalidadDTO
             {
@@ -43,36 +46,30 @@ namespace Alquilar.API.Controllers
         [HttpPost]
         public IActionResult CreateLocalidad(LocalidadDTO localidad)
         {
-            if (localidad is null)
-                return BadRequest("Solicitud no válida");
-
-            if (string.IsNullOrEmpty(localidad.Nombre))
-                return BadRequest("El nombre de localidad espcificado no es valido.");
-
-            var localidadModel = new Localidad
-            {
-                IdProvincia = localidad.IdProvincia,
-                Nombre = localidad.Nombre,
-            };
-
             try
             {
+               var newLocalidad = _localidadService.CreateLocalidad(localidad);
 
-                _localidadRepo.CreateLocalidad(localidadModel);
-                _localidadRepo.SaveChanges();
+                // TODO: I'm not sure if this response is correct according to REST principles
+                return CreatedAtRoute(nameof(GetLocalidad), new { idLocalidad = newLocalidad.IdLocalidad }, newLocalidad);
+            }
+            catch (ArgumentException exc)
+            {
+                return BadRequest(new ResponseError
+                {
+                    Message = exc.Message,
+                });
             }
             catch
             {
                 return StatusCode(500);
             }
-
-            return CreatedAtRoute(nameof(GetLocalidad), new { idLocalidad = localidadModel.IdLocalidad }, localidadModel);
         }
 
         [HttpGet("{idLocalidad}", Name = "GetLocalidad")]
         public IActionResult GetLocalidad(int idLocalidad)
         {
-            var localidadModel = _localidadRepo.GetLocalidadById(idLocalidad);
+            var localidadModel = _localidadService.GetLocalidadById(idLocalidad);
 
             if (localidadModel is null)
                 return NotFound();
@@ -84,6 +81,66 @@ namespace Alquilar.API.Controllers
                 Nombre = localidadModel.Nombre,
                 Label = $"{localidadModel.Nombre}, {localidadModel.Provincia.Nombre}"
             });
+        }
+
+        [HttpPut("{idLocalidad}")]
+        public IActionResult UpdateLocalidad(int idLocalidad, LocalidadDTO localidad)
+        {
+            try
+            {
+                _localidadService.UpdateLocalidad(idLocalidad, localidad);
+
+                // TODO: I'm not sure if this response is correct according to REST principles
+                return NoContent();
+            }
+            catch (ArgumentException exc)
+            {
+                return BadRequest(new ResponseError
+                {
+                    Message = exc.Message,
+                });
+            }
+            catch (NotFoundException exc)
+            {
+                return NotFound(new ResponseError
+                {
+                    Message = exc.Message,
+                });
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
+        }
+
+        [HttpDelete("{idLocalidad}")]
+        public IActionResult DeleteLocalidad(int idLocalidad)
+        {
+            try
+            {
+                _localidadService.DeleteLocalidad(idLocalidad);
+
+                // TODO: I'm not sure if this response is correct according to REST principles
+                return NoContent();
+            }
+            catch (ArgumentException exc)
+            {
+                return BadRequest(new ResponseError
+                {
+                    Message = exc.Message,
+                });
+            }
+            catch (NotFoundException exc)
+            {
+                return NotFound(new ResponseError
+                {
+                    Message = exc.Message,
+                });
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
         }
         #endregion
     }

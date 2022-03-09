@@ -5,11 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.9" />
+    <Folder Include="Provincia\" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Alquilar.Helpers\Alquilar.Helpers.csproj" />
+    <ProjectReference Include="..\Alquilar.DAL\Alquilar.DAL.csproj" />
+    <ProjectReference Include="..\Alquilar.Models\Alquilar.Models.csproj" />
   </ItemGroup>
 
 </Project>

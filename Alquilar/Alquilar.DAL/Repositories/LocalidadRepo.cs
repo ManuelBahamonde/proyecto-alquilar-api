@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Alquilar.Helpers.Exceptions;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,6 +49,29 @@ namespace Alquilar.DAL
             _db.Localidad.Add(localidad);
         }
 
+        public void UpdateLocalidad(int idLocalidad, Localidad newLocalidad)
+        {
+            if (newLocalidad == null)
+                throw new ArgumentNullException(nameof(newLocalidad));
+
+            var localidad = _db.Localidad.FirstOrDefault(l => l.IdLocalidad == idLocalidad);
+
+            if (localidad is null)
+                throw new NotFoundException("No existe la Localidad especificada");
+
+            localidad.IdProvincia = newLocalidad.IdProvincia;
+            localidad.Nombre = newLocalidad.Nombre;
+        }
+
+        public void DeleteLocalidad(int idLocalidad)
+        {
+            var localidad = _db.Localidad.FirstOrDefault(l => l.IdLocalidad == idLocalidad);
+
+            if (localidad is null)
+                throw new NotFoundException("No existe la Localidad especificada");
+
+            _db.Localidad.Remove(localidad);
+        }
         public void SaveChanges()
         {
             _db.SaveChanges();

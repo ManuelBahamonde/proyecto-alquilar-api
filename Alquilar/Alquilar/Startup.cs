@@ -1,4 +1,5 @@
 using Alquilar.DAL;
+using Alquilar.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -36,6 +37,10 @@ namespace Alquilar
             #region Repositories
             services.AddScoped<LocalidadRepo>();
             services.AddScoped<ProvinciaRepo>();
+            #endregion
+
+            #region Services
+            services.AddScoped<LocalidadService>();
             #endregion
 
             services.AddControllers();
