@@ -11,6 +11,11 @@ namespace Alquilar.DAL
     {
         public DB(DbContextOptions<DB> options) : base(options) { }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder) { 
+            modelBuilder.Entity<Inmueble>().HasMany(i => i.Imagenes); 
+        }
+
+
         #region Db Sets
         public DbSet<Localidad> Localidad { get; set; }
         public DbSet<Provincia> Provincia { get; set; }
@@ -18,6 +23,7 @@ namespace Alquilar.DAL
         public DbSet<TipoInmueble> TipoInmueble { get; set; }
         public DbSet<Imagen> Imagen { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<Inmueble> Inmueble { get; set; }
         #endregion
     }
 }

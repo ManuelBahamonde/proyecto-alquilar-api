@@ -41,6 +41,7 @@ namespace Alquilar
             services.AddScoped<TipoInmuebleRepo>();
             services.AddScoped<ImagenRepo>();
             services.AddScoped<UsuarioRepo>();
+            services.AddScoped<InmuebleRepo>();
             #endregion
 
             #region Services
@@ -50,6 +51,7 @@ namespace Alquilar
             services.AddScoped<TipoInmuebleService>();
             services.AddScoped<ImagenService>();
             services.AddScoped<UsuarioService>();
+            services.AddScoped<InmuebleService>();
             #endregion
 
             services.AddControllers();
