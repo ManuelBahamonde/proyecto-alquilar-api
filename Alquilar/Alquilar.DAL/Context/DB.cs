@@ -14,6 +14,7 @@ namespace Alquilar.DAL
         #region Db Sets
         public DbSet<Localidad> Localidad { get; set; }
         public DbSet<Provincia> Provincia { get; set; }
+        public DbSet<Rol> Rol { get; set; }
         #endregion
     }
 }

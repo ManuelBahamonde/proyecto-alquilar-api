@@ -37,11 +37,13 @@ namespace Alquilar
             #region Repositories
             services.AddScoped<LocalidadRepo>();
             services.AddScoped<ProvinciaRepo>();
+            services.AddScoped<RolRepo>();
             #endregion
 
             #region Services
             services.AddScoped<LocalidadService>();
             services.AddScoped<ProvinciaService>();
+            services.AddScoped<RolService>();
             #endregion
 
             services.AddControllers();

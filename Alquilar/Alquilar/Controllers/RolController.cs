@@ -13,43 +13,43 @@ namespace Alquilar.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ProvinciaController : ControllerBase
+    public class RolController : ControllerBase
     {
         #region Members
-        private readonly ProvinciaService _provinciaService;
+        private readonly RolService _rolService;
         #endregion
 
         #region Constructor
-        public ProvinciaController(ProvinciaService provinciaService)
+        public RolController(RolService rolService)
         {
-            _provinciaService = provinciaService;
+            _rolService = rolService;
         }
         #endregion
 
         #region Endpoints
         [HttpGet]
-        public IActionResult GetProvincias()
+        public IActionResult GetRoles()
         {
-            var provincias = _provinciaService.GetProvincias();
+            var roles = _rolService.GetRoles();
 
-            var formattedProvincias = provincias.Select(x => new ProvinciaDTO
+            var formattedRoles = roles.Select(x => new RolDTO
             {
-                IdProvincia = x.IdProvincia,
-                Nombre = x.Nombre,
+                IdRol = x.IdRol,
+                Descripcion = x.Descripcion,
             }).ToList();
 
-            return Ok(formattedProvincias);
+            return Ok(formattedRoles);
         }
 
         [HttpPost]
-        public IActionResult CreateProvincia(ProvinciaDTO provincia)
+        public IActionResult CreateRol(RolDTO rol)
         {
             try
             {
-                var newProvincia = _provinciaService.CreateProvincia(provincia);
+                var newRol = _rolService.CreateRol(rol);
 
                 // TODO: I'm not sure if this response is correct according to REST principles
-                return CreatedAtRoute(nameof(GetProvincia), new { idProvincia = newProvincia.IdProvincia}, newProvincia);
+                return CreatedAtRoute(nameof(GetRol), new { idRol = newRol.IdRol}, newRol);
             }
             catch (ArgumentException exc)
             {
@@ -62,54 +62,31 @@ namespace Alquilar.API.Controllers
             {
                 return StatusCode(500);
             }
-
-            //if (provincia is null)
-            //    return BadRequest("Solicitud no válida");
-
-            //if (string.IsNullOrEmpty(provincia.Nombre))
-            //    return BadRequest("El nombre de provincia espcificado no es valido.");
-
-            //var provinciaModel = new Provincia
-            //{
-            //    Nombre = provincia.Nombre,
-            //};
-
-            //try
-            //{
-            //    _provinciaService.CreateProvincia(provinciaModel);
-            //    _provinciaService.SaveChanges();
-            //}
-            //catch
-            //{
-            //    return StatusCode(500);
-            //}
-
-            //return CreatedAtRoute(nameof(GetProvincia), new { idProvincia = provinciaModel.IdProvincia }, provinciaModel);
         }
 
-        [HttpGet("{idProvincia}", Name = "GetProvincia")]
-        public IActionResult GetProvincia(int idProvincia)
+        [HttpGet("{idRol}", Name = "GetRol")]
+        public IActionResult GetRol(int idRol)
         {
-            var provinciaModel = _provinciaService.GetProvinciaById(idProvincia);
+            var rolModel = _rolService.GetRolById(idRol);
 
-            if (provinciaModel is null)
+            if (rolModel is null)
                 return NotFound();
 
-            return Ok(new ProvinciaDTO
+            return Ok(new RolDTO
             {
-                IdProvincia = provinciaModel.IdProvincia,
-                Nombre = provinciaModel.Nombre,
+                IdRol = rolModel.IdRol,
+                Descripcion = rolModel.Descripcion,
             });
         }
 
 
 
-        [HttpPut("{idProvincia}")]
-        public IActionResult UpdateProvincia(int idProvincia, ProvinciaDTO provincia)
+        [HttpPut("{idRol}")]
+        public IActionResult UpdateRol(int idRol, RolDTO rol)
         {
             try
             {
-                _provinciaService.UpdateProvincia(idProvincia, provincia);
+                _rolService.UpdateRol(idRol, rol);
 
                 // TODO: I'm not sure if this response is correct according to REST principles
                 return NoContent();
@@ -134,12 +111,12 @@ namespace Alquilar.API.Controllers
             }
         }
 
-        [HttpDelete("{idProvincia}")]
-        public IActionResult DeleteProvincia(int idProvincia)
+        [HttpDelete("{idRol}")]
+        public IActionResult DeleteRol(int idRol)
         {
             try
             {
-                _provinciaService.DeleteProvincia(idProvincia);
+                _rolService.DeleteRol(idRol);
 
                 // TODO: I'm not sure if this response is correct according to REST principles
                 return NoContent();
