@@ -38,12 +38,14 @@ namespace Alquilar
             services.AddScoped<LocalidadRepo>();
             services.AddScoped<ProvinciaRepo>();
             services.AddScoped<RolRepo>();
+            services.AddScoped<TipoInmuebleRepo>();
             #endregion
 
             #region Services
             services.AddScoped<LocalidadService>();
             services.AddScoped<ProvinciaService>();
             services.AddScoped<RolService>();
+            services.AddScoped<TipoInmuebleService>();
             #endregion
 
             services.AddControllers();
