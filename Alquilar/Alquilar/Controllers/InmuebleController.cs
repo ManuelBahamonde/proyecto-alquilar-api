@@ -1,13 +1,9 @@
-﻿using Alquilar.DAL;
-using Alquilar.Helpers.Exceptions;
+﻿using Alquilar.Helpers.Exceptions;
 using Alquilar.Models;
 using Alquilar.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Alquilar.API.Controllers
 {
@@ -37,18 +33,11 @@ namespace Alquilar.API.Controllers
             {
                 IdInmueble = x.IdInmueble,
                 Direccion = x.Direccion,
-                Piso = x.Piso,
-                Departamento = x.Departamento,
                 Precio = x.Precio,
-                Habitaciones = x.Habitaciones,
-                Baños = x.Baños,
-                Ambientes = x.Ambientes,
-                IdInmuebleExterno = x.IdInmuebleExterno,
-                FechaHastaAlquilada = x.FechaHastaAlquilada,
-                IdTipoInmueble = x.IdTipoInmueble,
-                Imagenes = x.Imagenes,
-                IdLocalidad = x.IdLocalidad,
-                IdUsuario = x.IdUsuario
+                NombreVendedor = x.Usuario.Nombre,
+                NombreTipoInmueble = x.TipoInmueble.Descripcion,
+                Ubicacion = $"{x.Localidad.Nombre}, {x.Localidad.Provincia.Nombre}",
+                UrlImagenPresentacion = x.Imagenes.FirstOrDefault()?.Url
             }).ToList();
 
             return Ok(formattedInmuebles);
@@ -87,7 +76,6 @@ namespace Alquilar.API.Controllers
 
             return Ok(new InmuebleDTO
             {
-
                 IdInmueble = inmuebleModel.IdInmueble,
                 Direccion = inmuebleModel.Direccion,
                 Piso = inmuebleModel.Piso,
@@ -96,12 +84,16 @@ namespace Alquilar.API.Controllers
                 Habitaciones = inmuebleModel.Habitaciones,
                 Baños = inmuebleModel.Baños,
                 Ambientes = inmuebleModel.Ambientes,
-                IdInmuebleExterno = inmuebleModel.IdInmuebleExterno,
                 FechaHastaAlquilada = inmuebleModel.FechaHastaAlquilada,
-                IdTipoInmueble = inmuebleModel.IdTipoInmueble,
-                Imagenes = inmuebleModel.Imagenes,
-                IdLocalidad = inmuebleModel.IdLocalidad,
-                IdUsuario = inmuebleModel.IdUsuario
+                Imagenes = inmuebleModel.Imagenes.Select(i => new ImagenDTO 
+                {
+                    Url = i.Url
+                }).ToList(),
+
+                NombreVendedor = inmuebleModel.Usuario.Nombre,
+                EmailVendedor = inmuebleModel.Usuario.Email,
+                TelefonoVendedor = inmuebleModel.Usuario.Telefono,
+                NombreTipoInmueble = inmuebleModel.TipoInmueble.Descripcion,
             });
         }
 

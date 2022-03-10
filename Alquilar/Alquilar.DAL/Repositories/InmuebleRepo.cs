@@ -28,6 +28,7 @@ namespace Alquilar.DAL
                 .Include(x => x.TipoInmueble)
                 .Include(x => x.Localidad)
                 .Include(x => x.Usuario)
+                .Include(x => x.Imagenes)
                 .ToList();
 
             return inmuebles;
@@ -40,6 +41,7 @@ namespace Alquilar.DAL
                 .Include(x => x.TipoInmueble)
                 .Include(x => x.Localidad)
                 .Include(x => x.Usuario)
+                .Include(x => x.Imagenes)
                 .FirstOrDefault(x => x.IdInmueble == idInmueble);
 
             return inmueble;

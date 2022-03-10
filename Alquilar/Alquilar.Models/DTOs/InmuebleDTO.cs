@@ -20,8 +20,16 @@ namespace Alquilar.Models
         public int? IdInmuebleExterno { get; set; }
         public DateTime? FechaHastaAlquilada { get; set; }
         public int IdTipoInmueble { get; set; }
-        public List<Imagen> Imagenes { get; set; }
+        public List<ImagenDTO> Imagenes { get; set; }
         public int IdLocalidad { get; set; }
         public int IdUsuario { get; set; }
+
+        public string NombreVendedor { get; set; }
+        public string NombreTipoInmueble { get; set; }
+        public string UrlImagenPresentacion { get; set; }
+        public string Ubicacion { get; set; }
+
+        public string EmailVendedor { get; set; }
+        public string TelefonoVendedor { get; set; }
     }
 }
