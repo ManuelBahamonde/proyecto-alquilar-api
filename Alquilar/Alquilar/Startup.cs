@@ -1,4 +1,5 @@
 using Alquilar.DAL;
+using Alquilar.Models.Middlewares;
 using Alquilar.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -84,6 +85,8 @@ namespace Alquilar
             }
 
             app.UseCors(_allOriginsPolicy);
+
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseHttpsRedirection();
 

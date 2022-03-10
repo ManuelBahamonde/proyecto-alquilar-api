@@ -44,24 +44,10 @@ namespace Alquilar.API.Controllers
         [HttpPost]
         public IActionResult CreateRol(RolDTO rol)
         {
-            try
-            {
-                var newRol = _rolService.CreateRol(rol);
+            var newRol = _rolService.CreateRol(rol);
 
-                // TODO: I'm not sure if this response is correct according to REST principles
-                return CreatedAtRoute(nameof(GetRol), new { idRol = newRol.IdRol}, newRol);
-            }
-            catch (ArgumentException exc)
-            {
-                return BadRequest(new ResponseError
-                {
-                    Message = exc.Message,
-                });
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
+            // TODO: I'm not sure if this response is correct according to REST principles
+            return CreatedAtRoute(nameof(GetRol), new { idRol = newRol.IdRol }, newRol);
         }
 
         [HttpGet("{idRol}", Name = "GetRol")]
@@ -84,64 +70,20 @@ namespace Alquilar.API.Controllers
         [HttpPut("{idRol}")]
         public IActionResult UpdateRol(int idRol, RolDTO rol)
         {
-            try
-            {
-                _rolService.UpdateRol(idRol, rol);
+            _rolService.UpdateRol(idRol, rol);
 
-                // TODO: I'm not sure if this response is correct according to REST principles
-                return NoContent();
-            }
-            catch (ArgumentException exc)
-            {
-                return BadRequest(new ResponseError
-                {
-                    Message = exc.Message,
-                });
-            }
-            catch (NotFoundException exc)
-            {
-                return NotFound(new ResponseError
-                {
-                    Message = exc.Message,
-                });
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
+            // TODO: I'm not sure if this response is correct according to REST principles
+            return NoContent();
         }
 
         [HttpDelete("{idRol}")]
         public IActionResult DeleteRol(int idRol)
         {
-            try
-            {
-                _rolService.DeleteRol(idRol);
+            _rolService.DeleteRol(idRol);
 
-                // TODO: I'm not sure if this response is correct according to REST principles
-                return NoContent();
-            }
-            catch (ArgumentException exc)
-            {
-                return BadRequest(new ResponseError
-                {
-                    Message = exc.Message,
-                });
-            }
-            catch (NotFoundException exc)
-            {
-                return NotFound(new ResponseError
-                {
-                    Message = exc.Message,
-                });
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
+            // TODO: I'm not sure if this response is correct according to REST principles
+            return NoContent();
         }
-
-
         #endregion
     }
 }

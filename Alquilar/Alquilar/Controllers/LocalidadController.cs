@@ -26,7 +26,6 @@ namespace Alquilar.API.Controllers
         }
         #endregion
 
-        // TODO: avoid repeating try catches. Find a way to make endpoints code to be inside a global try catch
         #region Endpoints
         [HttpGet]
         public IActionResult GetLocalidades()
@@ -46,24 +45,10 @@ namespace Alquilar.API.Controllers
         [HttpPost]
         public IActionResult CreateLocalidad(LocalidadDTO localidad)
         {
-            try
-            {
-               var newLocalidad = _localidadService.CreateLocalidad(localidad);
+            var newLocalidad = _localidadService.CreateLocalidad(localidad);
 
-                // TODO: I'm not sure if this response is correct according to REST principles
-                return CreatedAtRoute(nameof(GetLocalidad), new { idLocalidad = newLocalidad.IdLocalidad }, newLocalidad);
-            }
-            catch (ArgumentException exc)
-            {
-                return BadRequest(new ResponseError
-                {
-                    Message = exc.Message,
-                });
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
+            // TODO: I'm not sure if this response is correct according to REST principles
+            return CreatedAtRoute(nameof(GetLocalidad), new { idLocalidad = newLocalidad.IdLocalidad }, newLocalidad);
         }
 
         [HttpGet("{idLocalidad}", Name = "GetLocalidad")]
@@ -86,61 +71,19 @@ namespace Alquilar.API.Controllers
         [HttpPut("{idLocalidad}")]
         public IActionResult UpdateLocalidad(int idLocalidad, LocalidadDTO localidad)
         {
-            try
-            {
-                _localidadService.UpdateLocalidad(idLocalidad, localidad);
+            _localidadService.UpdateLocalidad(idLocalidad, localidad);
 
-                // TODO: I'm not sure if this response is correct according to REST principles
-                return NoContent();
-            }
-            catch (ArgumentException exc)
-            {
-                return BadRequest(new ResponseError
-                {
-                    Message = exc.Message,
-                });
-            }
-            catch (NotFoundException exc)
-            {
-                return NotFound(new ResponseError
-                {
-                    Message = exc.Message,
-                });
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
+            // TODO: I'm not sure if this response is correct according to REST principles
+            return NoContent();
         }
 
         [HttpDelete("{idLocalidad}")]
         public IActionResult DeleteLocalidad(int idLocalidad)
         {
-            try
-            {
-                _localidadService.DeleteLocalidad(idLocalidad);
+            _localidadService.DeleteLocalidad(idLocalidad);
 
-                // TODO: I'm not sure if this response is correct according to REST principles
-                return NoContent();
-            }
-            catch (ArgumentException exc)
-            {
-                return BadRequest(new ResponseError
-                {
-                    Message = exc.Message,
-                });
-            }
-            catch (NotFoundException exc)
-            {
-                return NotFound(new ResponseError
-                {
-                    Message = exc.Message,
-                });
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
+            // TODO: I'm not sure if this response is correct according to REST principles
+            return NoContent();
         }
         #endregion
     }

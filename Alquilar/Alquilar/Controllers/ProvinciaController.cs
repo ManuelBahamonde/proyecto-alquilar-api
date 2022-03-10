@@ -44,24 +44,10 @@ namespace Alquilar.API.Controllers
         [HttpPost]
         public IActionResult CreateProvincia(ProvinciaDTO provincia)
         {
-            try
-            {
-                var newProvincia = _provinciaService.CreateProvincia(provincia);
+            var newProvincia = _provinciaService.CreateProvincia(provincia);
 
-                // TODO: I'm not sure if this response is correct according to REST principles
-                return CreatedAtRoute(nameof(GetProvincia), new { idProvincia = newProvincia.IdProvincia}, newProvincia);
-            }
-            catch (ArgumentException exc)
-            {
-                return BadRequest(new ResponseError
-                {
-                    Message = exc.Message,
-                });
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
+            // TODO: I'm not sure if this response is correct according to REST principles
+            return CreatedAtRoute(nameof(GetProvincia), new { idProvincia = newProvincia.IdProvincia }, newProvincia);
         }
 
         [HttpGet("{idProvincia}", Name = "GetProvincia")]
@@ -84,64 +70,20 @@ namespace Alquilar.API.Controllers
         [HttpPut("{idProvincia}")]
         public IActionResult UpdateProvincia(int idProvincia, ProvinciaDTO provincia)
         {
-            try
-            {
-                _provinciaService.UpdateProvincia(idProvincia, provincia);
+            _provinciaService.UpdateProvincia(idProvincia, provincia);
 
-                // TODO: I'm not sure if this response is correct according to REST principles
-                return NoContent();
-            }
-            catch (ArgumentException exc)
-            {
-                return BadRequest(new ResponseError
-                {
-                    Message = exc.Message,
-                });
-            }
-            catch (NotFoundException exc)
-            {
-                return NotFound(new ResponseError
-                {
-                    Message = exc.Message,
-                });
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
+            // TODO: I'm not sure if this response is correct according to REST principles
+            return NoContent();
         }
 
         [HttpDelete("{idProvincia}")]
         public IActionResult DeleteProvincia(int idProvincia)
         {
-            try
-            {
-                _provinciaService.DeleteProvincia(idProvincia);
+            _provinciaService.DeleteProvincia(idProvincia);
 
-                // TODO: I'm not sure if this response is correct according to REST principles
-                return NoContent();
-            }
-            catch (ArgumentException exc)
-            {
-                return BadRequest(new ResponseError
-                {
-                    Message = exc.Message,
-                });
-            }
-            catch (NotFoundException exc)
-            {
-                return NotFound(new ResponseError
-                {
-                    Message = exc.Message,
-                });
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
+            // TODO: I'm not sure if this response is correct according to REST principles
+            return NoContent();
         }
-
-
         #endregion
     }
 }

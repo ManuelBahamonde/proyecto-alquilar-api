@@ -44,7 +44,10 @@ namespace Alquilar.Services
                 IdInmuebleExterno = inmueble.IdInmuebleExterno,
                 FechaHastaAlquilada = inmueble.FechaHastaAlquilada,
                 IdTipoInmueble = inmueble.IdTipoInmueble,
-                Imagenes = inmueble.Imagenes,
+                Imagenes = inmueble.Imagenes.Select(i => new Imagen 
+                {
+                    Url = i.Url,
+                }).ToList(),
                 IdLocalidad = inmueble.IdLocalidad,
                 IdUsuario = inmueble.IdUsuario
         };
@@ -81,7 +84,10 @@ namespace Alquilar.Services
                 IdInmuebleExterno = inmueble.IdInmuebleExterno,
                 FechaHastaAlquilada = inmueble.FechaHastaAlquilada,
                 IdTipoInmueble = inmueble.IdTipoInmueble,
-                Imagenes = inmueble.Imagenes,
+                Imagenes = inmueble.Imagenes.Select(i => new Imagen
+                {
+                    Url = i.Url,
+                }).ToList(),
                 IdLocalidad = inmueble.IdLocalidad,
                 IdUsuario = inmueble.IdUsuario
             };

@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alquilar.DAL", "Alquilar.DA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alquilar.Models", "Alquilar.Models\Alquilar.Models.csproj", "{311749E9-AAAE-4E7D-8BC8-2D75AB4A2BAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alquilar.Services", "Alquilar.Services\Alquilar.Services.csproj", "{37BFCC9E-2F22-4083-BC90-B03CD4F8179E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alquilar.Services", "Alquilar.Services\Alquilar.Services.csproj", "{37BFCC9E-2F22-4083-BC90-B03CD4F8179E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alquilar.Helpers", "Alquilar.Helpers\Alquilar.Helpers.csproj", "{43C398A8-3963-4CEA-8E9F-9E439160A0AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alquilar.Helpers", "Alquilar.Helpers\Alquilar.Helpers.csproj", "{43C398A8-3963-4CEA-8E9F-9E439160A0AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

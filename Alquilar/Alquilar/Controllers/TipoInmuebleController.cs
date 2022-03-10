@@ -44,24 +44,10 @@ namespace Alquilar.API.Controllers
         [HttpPost]
         public IActionResult CreateTipoInmueble(TipoInmuebleDTO tipoInmueble)
         {
-            try
-            {
-                var newTipoInmueble = _tipoInmuebleService.CreateTipoInmueble(tipoInmueble);
+            var newTipoInmueble = _tipoInmuebleService.CreateTipoInmueble(tipoInmueble);
 
-                // TODO: I'm not sure if this response is correct according to REST principles
-                return CreatedAtRoute(nameof(GetTipoInmueble), new { idTipoInmueble = newTipoInmueble.IdTipoInmueble}, newTipoInmueble);
-            }
-            catch (ArgumentException exc)
-            {
-                return BadRequest(new ResponseError
-                {
-                    Message = exc.Message,
-                });
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
+            // TODO: I'm not sure if this response is correct according to REST principles
+            return CreatedAtRoute(nameof(GetTipoInmueble), new { idTipoInmueble = newTipoInmueble.IdTipoInmueble }, newTipoInmueble);
         }
 
         [HttpGet("{idTipoInmueble}", Name = "GetTipoInmueble")]
@@ -84,64 +70,20 @@ namespace Alquilar.API.Controllers
         [HttpPut("{idTipoInmueble}")]
         public IActionResult UpdateTipoInmueble(int idTipoInmueble, TipoInmuebleDTO tipoInmueble)
         {
-            try
-            {
-                _tipoInmuebleService.UpdateTipoInmueble(idTipoInmueble, tipoInmueble);
+            _tipoInmuebleService.UpdateTipoInmueble(idTipoInmueble, tipoInmueble);
 
-                // TODO: I'm not sure if this response is correct according to REST principles
-                return NoContent();
-            }
-            catch (ArgumentException exc)
-            {
-                return BadRequest(new ResponseError
-                {
-                    Message = exc.Message,
-                });
-            }
-            catch (NotFoundException exc)
-            {
-                return NotFound(new ResponseError
-                {
-                    Message = exc.Message,
-                });
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
+            // TODO: I'm not sure if this response is correct according to REST principles
+            return NoContent();
         }
 
         [HttpDelete("{idTipoInmueble}")]
         public IActionResult DeleteTipoInmueble(int idTipoInmueble)
         {
-            try
-            {
-                _tipoInmuebleService.DeleteTipoInmueble(idTipoInmueble);
+            _tipoInmuebleService.DeleteTipoInmueble(idTipoInmueble);
 
-                // TODO: I'm not sure if this response is correct according to REST principles
-                return NoContent();
-            }
-            catch (ArgumentException exc)
-            {
-                return BadRequest(new ResponseError
-                {
-                    Message = exc.Message,
-                });
-            }
-            catch (NotFoundException exc)
-            {
-                return NotFound(new ResponseError
-                {
-                    Message = exc.Message,
-                });
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
+            // TODO: I'm not sure if this response is correct according to REST principles
+            return NoContent();
         }
-
-
         #endregion
     }
 }

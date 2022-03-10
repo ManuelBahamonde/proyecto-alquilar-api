@@ -46,24 +46,10 @@ namespace Alquilar.API.Controllers
         [HttpPost]
         public IActionResult CreateImagen(ImagenDTO imagen)
         {
-            try
-            {
-                var newImagen = _imagenService.CreateImagen(imagen);
+            var newImagen = _imagenService.CreateImagen(imagen);
 
-                // TODO: I'm not sure if this response is correct according to REST principles
-                return CreatedAtRoute(nameof(GetImagen), new { idImagen = newImagen.IdImagen}, newImagen);
-            }
-            catch (ArgumentException exc)
-            {
-                return BadRequest(new ResponseError
-                {
-                    Message = exc.Message,
-                });
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
+            // TODO: I'm not sure if this response is correct according to REST principles
+            return CreatedAtRoute(nameof(GetImagen), new { idImagen = newImagen.IdImagen }, newImagen);
         }
 
         [HttpGet("{idImagen}", Name = "GetImagen")]
@@ -88,61 +74,19 @@ namespace Alquilar.API.Controllers
         [HttpPut("{idImagen}")]
         public IActionResult UpdateImagen(int idImagen, ImagenDTO imagen)
         {
-            try
-            {
-                _imagenService.UpdateImagen(idImagen, imagen);
+            _imagenService.UpdateImagen(idImagen, imagen);
 
-                // TODO: I'm not sure if this response is correct according to REST principles
-                return NoContent();
-            }
-            catch (ArgumentException exc)
-            {
-                return BadRequest(new ResponseError
-                {
-                    Message = exc.Message,
-                });
-            }
-            catch (NotFoundException exc)
-            {
-                return NotFound(new ResponseError
-                {
-                    Message = exc.Message,
-                });
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
+            // TODO: I'm not sure if this response is correct according to REST principles
+            return NoContent();
         }
 
         [HttpDelete("{idImagen}")]
         public IActionResult DeleteImagen(int idImagen)
         {
-            try
-            {
-                _imagenService.DeleteImagen(idImagen);
+            _imagenService.DeleteImagen(idImagen);
 
-                // TODO: I'm not sure if this response is correct according to REST principles
-                return NoContent();
-            }
-            catch (ArgumentException exc)
-            {
-                return BadRequest(new ResponseError
-                {
-                    Message = exc.Message,
-                });
-            }
-            catch (NotFoundException exc)
-            {
-                return NotFound(new ResponseError
-                {
-                    Message = exc.Message,
-                });
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
+            // TODO: I'm not sure if this response is correct according to REST principles
+            return NoContent();
         }
 
 
