@@ -46,7 +46,7 @@ namespace Alquilar.API.Controllers
         {
             var newRol = _rolService.CreateRol(rol);
 
-            // TODO: I'm not sure if this response is correct according to REST principles
+            
             return CreatedAtRoute(nameof(GetRol), new { idRol = newRol.IdRol }, newRol);
         }
 
@@ -72,7 +72,7 @@ namespace Alquilar.API.Controllers
         {
             _rolService.UpdateRol(idRol, rol);
 
-            // TODO: I'm not sure if this response is correct according to REST principles
+            
             return NoContent();
         }
 
@@ -81,7 +81,7 @@ namespace Alquilar.API.Controllers
         {
             _rolService.DeleteRol(idRol);
 
-            // TODO: I'm not sure if this response is correct according to REST principles
+            
             return NoContent();
         }
         #endregion

@@ -46,7 +46,7 @@ namespace Alquilar.API.Controllers
         {
             var newProvincia = _provinciaService.CreateProvincia(provincia);
 
-            // TODO: I'm not sure if this response is correct according to REST principles
+            
             return CreatedAtRoute(nameof(GetProvincia), new { idProvincia = newProvincia.IdProvincia }, newProvincia);
         }
 
@@ -72,7 +72,7 @@ namespace Alquilar.API.Controllers
         {
             _provinciaService.UpdateProvincia(idProvincia, provincia);
 
-            // TODO: I'm not sure if this response is correct according to REST principles
+            
             return NoContent();
         }
 
@@ -81,7 +81,7 @@ namespace Alquilar.API.Controllers
         {
             _provinciaService.DeleteProvincia(idProvincia);
 
-            // TODO: I'm not sure if this response is correct according to REST principles
+            
             return NoContent();
         }
         #endregion

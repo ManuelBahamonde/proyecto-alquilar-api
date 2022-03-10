@@ -47,7 +47,7 @@ namespace Alquilar.API.Controllers
         {
             var newInmueble = _inmuebleService.CreateInmueble(inmueble);
 
-            // TODO: I'm not sure if this response is correct according to REST principles
+            
             return CreatedAtRoute(nameof(GetInmueble), new { idInmueble = newInmueble.IdInmueble }, newInmueble);
         }
 
@@ -87,7 +87,7 @@ namespace Alquilar.API.Controllers
         {
             _inmuebleService.UpdateInmueble(idInmueble, inmueble);
 
-            // TODO: I'm not sure if this response is correct according to REST principles
+            
             return NoContent();
         }
 
@@ -96,7 +96,7 @@ namespace Alquilar.API.Controllers
         {
             _inmuebleService.DeleteInmueble(idInmueble);
 
-            // TODO: I'm not sure if this response is correct according to REST principles
+            
             return NoContent();
         }
         #endregion

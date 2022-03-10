@@ -48,7 +48,7 @@ namespace Alquilar.API.Controllers
         {
             var newImagen = _imagenService.CreateImagen(imagen);
 
-            // TODO: I'm not sure if this response is correct according to REST principles
+            
             return CreatedAtRoute(nameof(GetImagen), new { idImagen = newImagen.IdImagen }, newImagen);
         }
 
@@ -76,7 +76,7 @@ namespace Alquilar.API.Controllers
         {
             _imagenService.UpdateImagen(idImagen, imagen);
 
-            // TODO: I'm not sure if this response is correct according to REST principles
+            
             return NoContent();
         }
 
@@ -85,7 +85,7 @@ namespace Alquilar.API.Controllers
         {
             _imagenService.DeleteImagen(idImagen);
 
-            // TODO: I'm not sure if this response is correct according to REST principles
+            
             return NoContent();
         }
 

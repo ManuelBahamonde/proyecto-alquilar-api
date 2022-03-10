@@ -56,7 +56,7 @@ namespace Alquilar.API.Controllers
         {
             var newUsuario = _usuarioService.CreateUsuario(usuario);
 
-            // TODO: I'm not sure if this response is correct according to REST principles
+            
             return CreatedAtRoute(nameof(GetUsuario), new { idUsuario = newUsuario.IdUsuario }, newUsuario);
         }
 
@@ -91,7 +91,6 @@ namespace Alquilar.API.Controllers
         {
             _usuarioService.UpdateUsuario(idUsuario, usuario);
 
-            // TODO: I'm not sure if this response is correct according to REST principles
             return NoContent();
         }
 
@@ -100,7 +99,7 @@ namespace Alquilar.API.Controllers
         {
             _usuarioService.DeleteUsuario(idUsuario);
 
-            // TODO: I'm not sure if this response is correct according to REST principles
+            
             return NoContent();
         }
         #endregion
