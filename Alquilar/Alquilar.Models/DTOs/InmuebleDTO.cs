@@ -11,7 +11,7 @@ namespace Alquilar.Models
     {
         public int? IdInmueble { get; set; }
         public string Direccion { get; set; }
-        public string Piso { get; set; }
+        public int? Piso { get; set; }
         public string Departamento { get; set; }
         public double Precio { get; set; }
         public int? Habitaciones { get; set; }

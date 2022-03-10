@@ -53,7 +53,7 @@ namespace Alquilar.DAL
                 throw new NotFoundException("No existe el TipoInmueble especificado");
 
             tipoInmueble.IdTipoInmueble = newTipoInmueble.IdTipoInmueble;
-            tipoInmueble.Descripcion = newTipoInmueble.Descripcion;
+            tipoInmueble.Nombre = newTipoInmueble.Nombre;
         }
 
         public void DeleteTipoInmueble(int idTipoInmueble)

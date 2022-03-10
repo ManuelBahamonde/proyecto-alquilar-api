@@ -35,7 +35,7 @@ namespace Alquilar.API.Controllers
             var formattedTipoInmuebles = tipoInmuebles.Select(x => new TipoInmuebleDTO
             {
                 IdTipoInmueble = x.IdTipoInmueble,
-                Descripcion = x.Descripcion,
+                Nombre = x.Nombre,
             }).ToList();
 
             return Ok(formattedTipoInmuebles);
@@ -61,7 +61,7 @@ namespace Alquilar.API.Controllers
             return Ok(new TipoInmuebleDTO
             {
                 IdTipoInmueble = tipoInmuebleModel.IdTipoInmueble,
-                Descripcion = tipoInmuebleModel.Descripcion,
+                Nombre = tipoInmuebleModel.Nombre,
             });
         }
 

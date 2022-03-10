@@ -28,12 +28,12 @@ namespace Alquilar.Services
             if (tipoInmueble is null)
                 throw new ArgumentException("TipoInmueble no valido");
 
-            if (string.IsNullOrEmpty(tipoInmueble.Descripcion))
+            if (string.IsNullOrEmpty(tipoInmueble.Nombre))
                 throw new ArgumentException("El nombre de TipoInmueble espcificado no es valido.");
 
             var tipoInmuebleModel = new TipoInmueble
             {
-                Descripcion = tipoInmueble.Descripcion,
+                Nombre = tipoInmueble.Nombre,
             };
 
             _tipoInmuebleRepo.CreateTipoInmueble(tipoInmuebleModel);
@@ -58,7 +58,7 @@ namespace Alquilar.Services
         {
             var tipoInmuebleModel = new TipoInmueble
             {
-                Descripcion = tipoInmueble.Descripcion,
+                Nombre = tipoInmueble.Nombre,
             };
 
             _tipoInmuebleRepo.UpdateTipoInmueble(idTipoInmueble, tipoInmuebleModel);

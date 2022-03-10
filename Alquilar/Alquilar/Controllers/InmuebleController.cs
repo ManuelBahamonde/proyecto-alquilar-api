@@ -34,7 +34,7 @@ namespace Alquilar.API.Controllers
                 Direccion = x.Direccion,
                 Precio = x.Precio,
                 NombreVendedor = x.Usuario.Nombre,
-                NombreTipoInmueble = x.TipoInmueble.Descripcion,
+                NombreTipoInmueble = x.TipoInmueble.Nombre,
                 Ubicacion = $"{x.Localidad.Nombre}, {x.Localidad.Provincia.Nombre}",
                 UrlImagenPresentacion = x.Imagenes.FirstOrDefault()?.Url
             }).ToList();
@@ -78,7 +78,7 @@ namespace Alquilar.API.Controllers
                 NombreVendedor = inmuebleModel.Usuario.Nombre,
                 EmailVendedor = inmuebleModel.Usuario.Email,
                 TelefonoVendedor = inmuebleModel.Usuario.Telefono,
-                NombreTipoInmueble = inmuebleModel.TipoInmueble.Descripcion,
+                NombreTipoInmueble = inmuebleModel.TipoInmueble.Nombre,
             });
         }
 
