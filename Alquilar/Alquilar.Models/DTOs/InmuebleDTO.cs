@@ -13,11 +13,11 @@ namespace Alquilar.Models
         public string Direccion { get; set; }
         public int? Piso { get; set; }
         public string Departamento { get; set; }
-        public double Precio { get; set; }
+        public decimal Precio { get; set; }
         public int? Habitaciones { get; set; }
         public int? Baños { get; set; }
         public int? Ambientes { get; set; }
-        public int? IdInmuebleExterno { get; set; }
+        //public int? IdInmuebleExterno { get; set; }
         public DateTime? FechaHastaAlquilada { get; set; }
         public int IdTipoInmueble { get; set; }
         public List<ImagenDTO> Imagenes { get; set; }

@@ -52,7 +52,6 @@ namespace Alquilar.DAL
             if (imagen is null)
                 throw new NotFoundException("No existe la Imagen especificada");
 
-            imagen.IdImagen = newImagen.IdImagen;
             imagen.Url = newImagen.Url;
             imagen.IdUsuario = newImagen.IdUsuario;
             imagen.IdInmueble = newImagen.IdInmueble;

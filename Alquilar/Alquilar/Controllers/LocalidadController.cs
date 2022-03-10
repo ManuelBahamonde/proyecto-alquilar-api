@@ -36,6 +36,7 @@ namespace Alquilar.API.Controllers
             {
                 IdLocalidad = x.IdLocalidad,
                 Nombre = x.Nombre,
+                IdProvincia = x.IdProvincia,
                 Label = $"{x.Nombre}, {x.Provincia.Nombre}"
             }).ToList();
 

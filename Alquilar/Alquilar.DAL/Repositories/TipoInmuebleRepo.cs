@@ -52,7 +52,6 @@ namespace Alquilar.DAL
             if (tipoInmueble is null)
                 throw new NotFoundException("No existe el TipoInmueble especificado");
 
-            tipoInmueble.IdTipoInmueble = newTipoInmueble.IdTipoInmueble;
             tipoInmueble.Nombre = newTipoInmueble.Nombre;
         }
 

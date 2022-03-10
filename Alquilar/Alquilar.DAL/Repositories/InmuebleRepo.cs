@@ -26,7 +26,7 @@ namespace Alquilar.DAL
             var inmuebles = _db
                 .Inmueble
                 .Include(x => x.TipoInmueble)
-                .Include(x => x.Localidad)
+                .Include(x => x.Localidad).ThenInclude(x => x.Provincia)
                 .Include(x => x.Usuario)
                 .Include(x => x.Imagenes)
                 .ToList();
@@ -72,7 +72,7 @@ namespace Alquilar.DAL
             inmueble.Habitaciones = newInmueble.Habitaciones;
             inmueble.Baños = newInmueble.Baños;
             inmueble.Ambientes = newInmueble.Ambientes;
-            inmueble.IdInmuebleExterno = newInmueble.IdInmuebleExterno;
+            //inmueble.IdInmuebleExterno = newInmueble.IdInmuebleExterno;
             inmueble.FechaHastaAlquilada = newInmueble.FechaHastaAlquilada;
             inmueble.IdTipoInmueble = newInmueble.IdTipoInmueble;
             inmueble.Imagenes = newInmueble.Imagenes;

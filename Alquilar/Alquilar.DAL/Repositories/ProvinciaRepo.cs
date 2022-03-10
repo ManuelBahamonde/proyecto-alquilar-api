@@ -52,7 +52,6 @@ namespace Alquilar.DAL
             if (provincia is null)
                 throw new NotFoundException("No existe la Provincia especificada");
 
-            provincia.IdProvincia = newProvincia.IdProvincia;
             provincia.Nombre = newProvincia.Nombre;
         }
 

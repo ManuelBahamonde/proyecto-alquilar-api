@@ -30,9 +30,9 @@ namespace Alquilar.Models.Middlewares
             {
                 await HandleExceptionAsync(httpContext, HttpStatusCode.NotFound, exc.Message);
             }
-            catch
+            catch (Exception exc)
             {
-                await HandleExceptionAsync(httpContext, HttpStatusCode.InternalServerError, "Internal Server Error");
+                await HandleExceptionAsync(httpContext, HttpStatusCode.InternalServerError, exc.Message);
             }
         }
         private async Task HandleExceptionAsync(HttpContext context, HttpStatusCode statusCode, string message)

@@ -59,8 +59,9 @@ namespace Alquilar.DAL
             if (localidad is null)
                 throw new NotFoundException("No existe la Localidad especificada");
 
-            localidad.IdProvincia = newLocalidad.IdProvincia;
             localidad.Nombre = newLocalidad.Nombre;
+            localidad.IdProvincia = newLocalidad.IdProvincia;
+            
         }
 
         public void DeleteLocalidad(int idLocalidad)

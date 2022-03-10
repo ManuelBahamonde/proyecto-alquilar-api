@@ -52,7 +52,6 @@ namespace Alquilar.DAL
             if (rol is null)
                 throw new NotFoundException("No existe el Rol especificado");
 
-            rol.IdRol = newRol.IdRol;
             rol.Descripcion = newRol.Descripcion;
         }
 
