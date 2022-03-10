@@ -62,29 +62,6 @@ namespace Alquilar.API.Controllers
             {
                 return StatusCode(500);
             }
-
-            //if (provincia is null)
-            //    return BadRequest("Solicitud no válida");
-
-            //if (string.IsNullOrEmpty(provincia.Nombre))
-            //    return BadRequest("El nombre de provincia espcificado no es valido.");
-
-            //var provinciaModel = new Provincia
-            //{
-            //    Nombre = provincia.Nombre,
-            //};
-
-            //try
-            //{
-            //    _provinciaService.CreateProvincia(provinciaModel);
-            //    _provinciaService.SaveChanges();
-            //}
-            //catch
-            //{
-            //    return StatusCode(500);
-            //}
-
-            //return CreatedAtRoute(nameof(GetProvincia), new { idProvincia = provinciaModel.IdProvincia }, provinciaModel);
         }
 
         [HttpGet("{idProvincia}", Name = "GetProvincia")]

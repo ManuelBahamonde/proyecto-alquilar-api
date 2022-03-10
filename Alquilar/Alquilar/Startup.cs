@@ -19,6 +19,8 @@ namespace Alquilar
 {
     public class Startup
     {
+        private readonly string _allOriginsPolicy = "allOriginsPolicy";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -54,6 +56,16 @@ namespace Alquilar
             services.AddScoped<InmuebleService>();
             #endregion
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy(_allOriginsPolicy, 
+                    builder => builder
+                        .AllowAnyOrigin()
+                        .SetIsOriginAllowedToAllowWildcardSubdomains()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .Build());
+            });
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -70,6 +82,8 @@ namespace Alquilar
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Alquilar v1"));
             }
+
+            app.UseCors(_allOriginsPolicy);
 
             app.UseHttpsRedirection();
 
