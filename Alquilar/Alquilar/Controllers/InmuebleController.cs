@@ -69,7 +69,7 @@ namespace Alquilar.API.Controllers
                 Habitaciones = inmuebleModel.Habitaciones,
                 Baños = inmuebleModel.Baños,
                 Ambientes = inmuebleModel.Ambientes,
-                FechaHastaAlquilada = inmuebleModel.FechaHastaAlquilada,
+                FechaHastaAlquilada = inmuebleModel.FechaHastaAlquilada.HasValue && inmuebleModel.FechaHastaAlquilada > DateTime.Now ? inmuebleModel.FechaHastaAlquilada : null,
                 Imagenes = inmuebleModel.Imagenes.Select(i => new ImagenDTO 
                 {
                     Url = i.Url
