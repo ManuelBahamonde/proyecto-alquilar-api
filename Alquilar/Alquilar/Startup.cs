@@ -1,20 +1,18 @@
 using Alquilar.DAL;
-using Alquilar.Models.Middlewares;
+using Alquilar.Helpers.Consts;
+using Alquilar.Models;
 using Alquilar.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Alquilar.Services.Interfaces;
+using Alquilar.API.Middlewares;
 
 namespace Alquilar
 {
@@ -55,6 +53,33 @@ namespace Alquilar
             services.AddScoped<ImagenService>();
             services.AddScoped<UsuarioService>();
             services.AddScoped<InmuebleService>();
+            services.AddScoped<AuthService>();
+            services.AddScoped<TokenService>();
+            services.AddScoped<ITokenService, TokenService>();
+            #endregion
+
+            #region Settings
+            services.Configure<JwtSettings>(Configuration.GetSection(Settings.JwtSettings));
+            #endregion
+
+            #region JWT
+            services
+                .AddHttpContextAccessor()
+                .AddAuthorization()
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration["JwtSettings:Issuer"],
+                        ValidAudience = Configuration["JwtSettings:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(Configuration["JwtSettings:Secret"]))
+                    };
+                });
             #endregion
 
             services.AddCors(options =>
@@ -84,9 +109,13 @@ namespace Alquilar
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Alquilar v1"));
             }
 
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseCors(_allOriginsPolicy);
 
             app.UseMiddleware<ExceptionMiddleware>();
+            app.UseMiddleware<TokenMiddleware>();
 
             app.UseHttpsRedirection();
 
@@ -96,7 +125,9 @@ namespace Alquilar
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints
+                    .MapControllers()
+                    .RequireAuthorization(); // Forcing users to be Authenticated for every endpoint. In order to bypass this, we can use [AllowAnonymous] attribute tag
             });
         }
     }

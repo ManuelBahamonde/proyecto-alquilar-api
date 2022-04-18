@@ -43,6 +43,17 @@ namespace Alquilar.DAL
             return usuario;
         }
 
+        public Usuario GetUsuarioByNombreUsuario(string nombreUsuario)
+        {
+            var usuario = _db
+                .Usuario
+                .Include(x => x.Rol)
+                .Include(x => x.Localidad)
+                .FirstOrDefault(x => x.NombreUsuario == nombreUsuario);
+
+            return usuario;
+        }
+
         public void CreateUsuario(Usuario usuario)
         {
             if (usuario == null)
@@ -85,6 +96,7 @@ namespace Alquilar.DAL
 
             _db.Usuario.Remove(usuario);
         }
+
         public void SaveChanges()
         {
             _db.SaveChanges();
