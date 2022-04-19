@@ -41,9 +41,9 @@ namespace Alquilar.Services
         }
 
         // Read
-        public List<Localidad> GetLocalidades()
+        public List<Localidad> GetLocalidades(string searchText)
         {
-            return _localidadRepo.GetLocalidades();
+            return _localidadRepo.GetLocalidades(searchText);
         }
 
         public Localidad GetLocalidadById(int idLocalidad)
@@ -71,8 +71,5 @@ namespace Alquilar.Services
             _localidadRepo.SaveChanges();
         }
         #endregion
-
-
-
     }
 }

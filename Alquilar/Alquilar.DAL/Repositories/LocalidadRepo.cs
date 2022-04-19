@@ -21,12 +21,17 @@ namespace Alquilar.DAL
         }
         #endregion
 
-        public List<Localidad> GetLocalidades()
+        public List<Localidad> GetLocalidades(string searchText)
         {
-            var localidades = _db
+            var query = _db
                 .Localidad
                 .Include(x => x.Provincia)
-                .ToList();
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchText))
+                query = query.Where(x => x.Nombre.Contains(searchText) || x.Provincia.Nombre.Contains(searchText));
+
+            var localidades = query.ToList();
 
             return localidades;
         }
