@@ -50,7 +50,8 @@ namespace Alquilar.Services
                 Servicio = usuario.Servicio,
                 UrlApi = usuario.UrlApi,
                 IdRol = usuario.IdRol,
-                IdLocalidad = usuario.IdLocalidad
+                IdLocalidad = usuario.IdLocalidad,
+                Verificado = true, // TODO: hacer que verificado sea false cuando el rol sea Inmobiliaria y no permitir login cuando verificado sea false
             };
 
             _usuarioRepo.CreateUsuario(usuarioModel);

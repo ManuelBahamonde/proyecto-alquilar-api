@@ -16,6 +16,7 @@ namespace Alquilar.DAL
         public string Piso { get; set; }
         public string Servicio { get; set; }
         public string UrlApi { get; set; }
+        public bool Verificado { get; set; }
         public int IdRol { get; set; }
 
         [ForeignKey("IdRol")]
