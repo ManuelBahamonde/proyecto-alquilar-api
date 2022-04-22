@@ -20,5 +20,7 @@ namespace Alquilar.Models
         public string UrlApi { get; set; }
         public int IdRol { get; set; }
         public int IdLocalidad { get; set; }
+        public int? DuracionTurno { get; set; }
+        public List<HorarioDTO> Horarios { get; set; } = new List<HorarioDTO>();
     }
 }

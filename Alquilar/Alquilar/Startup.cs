@@ -43,6 +43,7 @@ namespace Alquilar
             services.AddScoped<ImagenRepo>();
             services.AddScoped<UsuarioRepo>();
             services.AddScoped<InmuebleRepo>();
+            services.AddScoped<HorarioRepo>();
             #endregion
 
             #region Services
@@ -55,6 +56,7 @@ namespace Alquilar
             services.AddScoped<InmuebleService>();
             services.AddScoped<AuthService>();
             services.AddScoped<TokenService>();
+            services.AddScoped<HorarioService>();
             services.AddScoped<ITokenService, TokenService>();
             #endregion
 

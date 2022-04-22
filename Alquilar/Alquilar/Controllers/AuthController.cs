@@ -2,6 +2,7 @@
 using Alquilar.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace Alquilar.API.Controllers
 {
@@ -38,7 +39,7 @@ namespace Alquilar.API.Controllers
         {
             var newUsuario = _authService.Register(usuario);
 
-            return CreatedAtRoute(nameof(Register), new { idUsuario = newUsuario.IdUsuario }, newUsuario);
+            return StatusCode((int)HttpStatusCode.Created, newUsuario);
         }
         #endregion
     }

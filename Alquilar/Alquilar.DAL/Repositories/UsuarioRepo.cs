@@ -8,17 +8,10 @@ using System.Threading.Tasks;
 
 namespace Alquilar.DAL
 {
-    public class UsuarioRepo
+    public class UsuarioRepo : BaseRepo
     {
-        #region Members
-        private readonly DB _db;
-        #endregion
-
         #region Constructor
-        public UsuarioRepo(DB db)
-        {
-            _db = db;
-        }
+        public UsuarioRepo(DB db) : base(db) { }
         #endregion
 
         public List<Usuario> GetUsuarios()
