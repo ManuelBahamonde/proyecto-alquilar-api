@@ -35,7 +35,7 @@ namespace Alquilar.API.Controllers
                 Precio = x.Precio,
                 NombreVendedor = x.Usuario.Nombre,
                 NombreTipoInmueble = x.TipoInmueble.Nombre,
-                Ubicacion = $"{x.Localidad.Nombre}, {x.Localidad.Provincia.Nombre}",
+                Ubicacion = x.Localidad.NombreCompleto,
                 UrlImagenPresentacion = x.Imagenes.FirstOrDefault()?.Url
             }).ToList();
 
@@ -69,10 +69,17 @@ namespace Alquilar.API.Controllers
                 Habitaciones = inmuebleModel.Habitaciones,
                 Baños = inmuebleModel.Baños,
                 Ambientes = inmuebleModel.Ambientes,
-                FechaHastaAlquilada = inmuebleModel.FechaHastaAlquilada,
+                FechaHastaAlquilada = inmuebleModel.FechaHastaAlquilada,                
+                IdLocalidad= inmuebleModel.IdLocalidad,
+                NombreCompletoLocalidad= inmuebleModel.Localidad.NombreCompleto,
+                IdTipoInmueble = inmuebleModel.IdTipoInmueble,
+                IdUsuario = inmuebleModel.IdUsuario,
                 Imagenes = inmuebleModel.Imagenes.Select(i => new ImagenDTO 
                 {
-                    Url = i.Url
+                    IdImagen = i.IdImagen,
+                    Url = i.Url,
+                    IdInmueble = i.IdInmueble,
+                    IdUsuario = i.IdUsuario
                 }).ToList(),
 
                 NombreVendedor = inmuebleModel.Usuario.Nombre,

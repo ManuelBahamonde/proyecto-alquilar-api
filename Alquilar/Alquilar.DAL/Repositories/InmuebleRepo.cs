@@ -39,7 +39,7 @@ namespace Alquilar.DAL
             var inmueble = _db
                 .Inmueble
                 .Include(x => x.TipoInmueble)
-                .Include(x => x.Localidad)
+                .Include(x => x.Localidad).ThenInclude(x => x.Provincia)
                 .Include(x => x.Usuario)
                 .Include(x => x.Imagenes)
                 .FirstOrDefault(x => x.IdInmueble == idInmueble);

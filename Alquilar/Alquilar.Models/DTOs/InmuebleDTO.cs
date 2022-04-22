@@ -22,6 +22,7 @@ namespace Alquilar.Models
         public int IdTipoInmueble { get; set; }
         public List<ImagenDTO> Imagenes { get; set; }
         public int IdLocalidad { get; set; }
+        public string NombreCompletoLocalidad { get; set; }
         public int IdUsuario { get; set; }
 
         public string NombreVendedor { get; set; }

@@ -64,7 +64,7 @@ namespace Alquilar.API.Controllers
                 IdLocalidad = localidadModel.IdLocalidad,
                 IdProvincia = localidadModel.IdProvincia,
                 Nombre = localidadModel.Nombre,
-                Label = $"{localidadModel.Nombre}, {localidadModel.Provincia.Nombre}"
+                Label = localidadModel.NombreCompleto
             });
         }
 
