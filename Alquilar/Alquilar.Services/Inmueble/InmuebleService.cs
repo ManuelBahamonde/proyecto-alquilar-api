@@ -11,14 +11,17 @@ namespace Alquilar.Services
     {
         #region Members
         private readonly InmuebleRepo _inmuebleRepo;
+        private readonly ImagenService _imagenService;
         private readonly Token _token;
         #endregion
 
         #region Constructor
         public InmuebleService(InmuebleRepo inmuebleRepo,
+            ImagenService imagenService,
             ITokenService tokenService)
         {
             _inmuebleRepo = inmuebleRepo;
+            _imagenService = imagenService;
             _token = tokenService.GetToken();
         }
         #endregion
@@ -73,7 +76,9 @@ namespace Alquilar.Services
         // Update
         public void UpdateInmueble(int idInmueble, InmuebleDTO inmueble)
         {
-            var inmuebleModel = new Inmueble
+            var inmuebleModel = _inmuebleRepo.GetInmuebleById(idInmueble);
+
+            var newInmuebleModel = new Inmueble
             {
                 Direccion = inmueble.Direccion,
                 Piso = inmueble.Piso,
@@ -89,9 +94,26 @@ namespace Alquilar.Services
                 {
                     Url = i.Url,
                 }).ToList(),
-                IdLocalidad = inmueble.IdLocalidad,
-                IdUsuario = inmueble.IdUsuario
+                IdLocalidad = inmueble.IdLocalidad
             };
+
+            var rqIdsImagen = inmueble
+                .Imagenes
+                .Where(x => x.IdImagen.HasValue)
+                .Select(x => x.IdImagen)
+                .ToList();
+
+            var toDeleteIdsImagen = inmuebleModel.Imagenes.Where(x => !rqIdsImagen.Contains(x.IdImagen)).Select(x => x.IdImagen).ToList();
+            inmueble.Imagenes.ForEach(i =>
+            {
+                i.IdUsuario = _token.IdUsuario;
+
+                if (!i.IdImagen.HasValue)
+                    _imagenService.CreateImagen(i);
+                else
+                    _imagenService.UpdateImagen(i.IdImagen.Value, i);
+            });
+            toDeleteIdsImagen.ForEach(_imagenService.DeleteImagen);
 
             _inmuebleRepo.UpdateInmueble(idInmueble, inmuebleModel);
             _inmuebleRepo.SaveChanges();
