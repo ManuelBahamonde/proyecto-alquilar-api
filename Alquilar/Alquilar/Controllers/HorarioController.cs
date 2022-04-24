@@ -29,14 +29,6 @@ namespace Alquilar.API.Controllers
 
             return Ok(horarios);
         }
-
-        [HttpPost]
-        public IActionResult AsignarTurno(TurnoAsignadoDTO turnoAsignado)
-        {
-            var newTurno = _horarioService.AsignarTurno(turnoAsignado);
-
-            return StatusCode((int)HttpStatusCode.Created, newTurno);
-        }
         #endregion
     }
 }

@@ -7,17 +7,10 @@ using System.Threading.Tasks;
 
 namespace Alquilar.DAL
 {
-    public class ProvinciaRepo
+    public class ProvinciaRepo : BaseRepo
     {
-        #region Members
-        private readonly DB _db;
-        #endregion
-
         #region Constructor
-        public ProvinciaRepo(DB db)
-        {
-            _db = db;
-        }
+        public ProvinciaRepo(DB db) : base(db) { }
         #endregion
 
         public List<Provincia> GetProvincias()
@@ -63,11 +56,6 @@ namespace Alquilar.DAL
                 throw new NotFoundException("No existe la Provincia especificada");
 
             _db.Provincia.Remove(provincia);
-        }
-
-        public void SaveChanges()
-        {
-            _db.SaveChanges();
         }
     }
 }

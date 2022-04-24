@@ -30,6 +30,10 @@ namespace Alquilar.API.Middlewares
             {
                 await HandleExceptionAsync(httpContext, HttpStatusCode.NotFound, exc.Message);
             }
+            catch (NotAuthorizedException exc)
+            {
+                await HandleExceptionAsync(httpContext, HttpStatusCode.Unauthorized, exc.Message);
+            }
             catch (Exception exc)
             {
                 await HandleExceptionAsync(httpContext, HttpStatusCode.InternalServerError, exc.Message);

@@ -7,17 +7,10 @@ using System.Threading.Tasks;
 
 namespace Alquilar.DAL
 {
-    public class TipoInmuebleRepo
+    public class TipoInmuebleRepo : BaseRepo
     {
-        #region Members
-        private readonly DB _db;
-        #endregion
-
         #region Constructor
-        public TipoInmuebleRepo(DB db)
-        {
-            _db = db;
-        }
+        public TipoInmuebleRepo(DB db) : base(db) { }
         #endregion
 
         public List<TipoInmueble> GetTipoInmuebles()
@@ -63,11 +56,6 @@ namespace Alquilar.DAL
                 throw new NotFoundException("No existe la TipoInmueble especificada");
 
             _db.TipoInmueble.Remove(tipoInmueble);
-        }
-
-        public void SaveChanges()
-        {
-            _db.SaveChanges();
         }
     }
 }

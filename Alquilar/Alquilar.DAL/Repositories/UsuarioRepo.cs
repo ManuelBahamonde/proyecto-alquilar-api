@@ -89,10 +89,5 @@ namespace Alquilar.DAL
 
             _db.Usuario.Remove(usuario);
         }
-
-        public void SaveChanges()
-        {
-            _db.SaveChanges();
-        }
     }
 }

@@ -34,6 +34,7 @@ namespace Alquilar.Services
             return new Token
             {
                 Bearer = jwt,
+                IdUsuario = user.IdUsuario,
                 Nombre = user.Nombre,
                 Email = user.Email,
                 NombreUsuario = user.NombreUsuario,
@@ -60,6 +61,7 @@ namespace Alquilar.Services
             {
                 new Claim(ClaimTypes.Name, user.Nombre),
                 new Claim(CustomClaimTypes.Email, user.Email),
+                new Claim(CustomClaimTypes.IdUsuario, user.IdUsuario.ToString()),
                 new Claim(CustomClaimTypes.NombreUsuario, user.NombreUsuario),
                 new Claim(CustomClaimTypes.NombreRol, user.Rol.Descripcion),
             };
