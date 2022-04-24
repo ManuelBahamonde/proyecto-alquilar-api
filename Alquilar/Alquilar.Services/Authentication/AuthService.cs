@@ -75,8 +75,7 @@ namespace Alquilar.Services
             _usuarioRepo.SaveChanges();
 
             // Committing changes
-            // _usuarioRepo.Commit();
-            _usuarioRepo.Rollback();
+            _usuarioRepo.Commit();
 
             return usuarioModel;
         }
