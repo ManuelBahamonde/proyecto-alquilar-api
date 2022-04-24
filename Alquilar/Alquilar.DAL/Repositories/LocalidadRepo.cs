@@ -8,17 +8,10 @@ using System.Threading.Tasks;
 
 namespace Alquilar.DAL
 {
-    public class LocalidadRepo
+    public class LocalidadRepo : BaseRepo
     {
-        #region Members
-        private readonly DB _db;
-        #endregion
-
         #region Constructor
-        public LocalidadRepo(DB db)
-        {
-            _db = db;
-        }
+        public LocalidadRepo(DB db) : base(db) { }
         #endregion
 
         public List<Localidad> GetLocalidades(string searchText)
@@ -77,10 +70,6 @@ namespace Alquilar.DAL
                 throw new NotFoundException("No existe la Localidad especificada");
 
             _db.Localidad.Remove(localidad);
-        }
-        public void SaveChanges()
-        {
-            _db.SaveChanges();
         }
     }
 }

@@ -11,5 +11,6 @@ namespace Alquilar.Helpers.Consts
         public const string Email = "AlquilAr.Email";
         public const string NombreUsuario = "AlquilAr.NombreUsuario";
         public const string NombreRol = "AlquilAr.NombreRol";
+        public const string IdUsuario = "AlquilAr.IdUsuario";
     }
 }

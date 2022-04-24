@@ -11,14 +11,17 @@ namespace Alquilar.Services
 
         #region Members
         private readonly UsuarioRepo _usuarioRepo;
+        private readonly HorarioService _horarioService;
         private readonly ITokenService _tokenService;
         #endregion
 
         #region Constructor
         public AuthService(UsuarioRepo usuarioRepo,
+            HorarioService horarioService,
             ITokenService tokenService)
         {
             _usuarioRepo = usuarioRepo;
+            _horarioService = horarioService;
             _tokenService = tokenService;
         }
         #endregion
@@ -38,6 +41,10 @@ namespace Alquilar.Services
             if (_usuarioRepo.GetUsuarioByNombreUsuario(usuario.NombreUsuario) != null)
                 throw new ArgumentException("Ya existe un Usuario con ese nombre de Usuario.");
 
+            // Beginning Transaction so we can create Usuario and Horario in the same transaction
+            _usuarioRepo.BeginTransaction();
+
+            // Saving Usuario
             var usuarioModel = new Usuario
             {
                 NombreUsuario = usuario.NombreUsuario,
@@ -52,10 +59,23 @@ namespace Alquilar.Services
                 IdRol = usuario.IdRol,
                 IdLocalidad = usuario.IdLocalidad,
                 Verificado = true, // TODO: hacer que verificado sea false cuando el rol sea Inmobiliaria y no permitir login cuando verificado sea false
+                DuracionTurno = usuario.Horarios.Count > 0 ? usuario.DuracionTurno : null,
             };
 
             _usuarioRepo.CreateUsuario(usuarioModel);
             _usuarioRepo.SaveChanges();
+
+            // Saving Horario
+            usuario.Horarios.ForEach(horario =>
+            {
+                horario.IdUsuario = usuarioModel.IdUsuario;
+
+                _horarioService.CreateHorario(horario);
+            });
+            _usuarioRepo.SaveChanges();
+
+            // Committing changes
+            _usuarioRepo.Commit();
 
             return usuarioModel;
         }

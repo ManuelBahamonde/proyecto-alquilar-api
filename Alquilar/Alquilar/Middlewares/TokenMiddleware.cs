@@ -27,6 +27,7 @@ namespace Alquilar.API.Middlewares
                 tokenService.SetToken(new Token
                 {
                     Bearer = GetRawJwt(httpContext.Request.Headers["Authorization"]),
+                    IdUsuario = int.Parse(claims.FirstOrDefault(x => x.Type == CustomClaimTypes.IdUsuario)?.Value ?? "0"),
                     Nombre = httpContext.User.Identity.Name,
                     Email = claims.FirstOrDefault(x => x.Type == CustomClaimTypes.Email)?.Value,
                     NombreUsuario = claims.FirstOrDefault(x => x.Type == CustomClaimTypes.NombreUsuario)?.Value,

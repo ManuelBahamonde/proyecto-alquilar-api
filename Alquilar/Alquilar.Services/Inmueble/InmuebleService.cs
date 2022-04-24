@@ -1,10 +1,9 @@
 ﻿using Alquilar.DAL;
 using Alquilar.Models;
+using Alquilar.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Alquilar.Services
 {
@@ -12,12 +11,15 @@ namespace Alquilar.Services
     {
         #region Members
         private readonly InmuebleRepo _inmuebleRepo;
+        private readonly Token _token;
         #endregion
 
         #region Constructor
-        public InmuebleService(InmuebleRepo inmuebleRepo)
+        public InmuebleService(InmuebleRepo inmuebleRepo,
+            ITokenService tokenService)
         {
             _inmuebleRepo = inmuebleRepo;
+            _token = tokenService.GetToken();
         }
         #endregion
 
@@ -30,7 +32,6 @@ namespace Alquilar.Services
 
             if (string.IsNullOrEmpty(inmueble.Direccion))
                 throw new ArgumentException("La direccion del Inmueble espcificado no es valida.");
-
 
             var inmuebleModel = new Inmueble
             {
@@ -49,7 +50,7 @@ namespace Alquilar.Services
                     Url = i.Url,
                 }).ToList(),
                 IdLocalidad = inmueble.IdLocalidad,
-                IdUsuario = inmueble.IdUsuario
+                IdUsuario = _token.IdUsuario,
         };
 
             _inmuebleRepo.CreateInmueble(inmuebleModel);

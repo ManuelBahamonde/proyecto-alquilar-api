@@ -43,6 +43,9 @@ namespace Alquilar
             services.AddScoped<ImagenRepo>();
             services.AddScoped<UsuarioRepo>();
             services.AddScoped<InmuebleRepo>();
+            services.AddScoped<HorarioRepo>();
+            services.AddScoped<TurnoAsignadoRepo>();
+            services.AddScoped<ConfigRepo>();
             #endregion
 
             #region Services
@@ -55,11 +58,16 @@ namespace Alquilar
             services.AddScoped<InmuebleService>();
             services.AddScoped<AuthService>();
             services.AddScoped<TokenService>();
+            services.AddScoped<HorarioService>();
+            services.AddScoped<TurnoAsignadoService>();
+            services.AddSingleton<EmailService>();
+            services.AddScoped<ConfigService>();
             services.AddScoped<ITokenService, TokenService>();
             #endregion
 
             #region Settings
             services.Configure<JwtSettings>(Configuration.GetSection(Settings.JwtSettings));
+            services.Configure<EmailSettings>(Configuration.GetSection(Settings.EmailSettings));
             #endregion
 
             #region JWT
