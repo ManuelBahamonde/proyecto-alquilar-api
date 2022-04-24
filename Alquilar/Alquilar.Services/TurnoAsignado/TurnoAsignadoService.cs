@@ -13,14 +13,20 @@ namespace Alquilar.Services
         #region Members
         private readonly TurnoAsignadoRepo _turnoAsignadoRepo;
         private readonly InmuebleService _inmuebleService;
+        private readonly EmailService _emailService;
+        private readonly ConfigService _configService;
         #endregion
 
         #region Constructor
         public TurnoAsignadoService(TurnoAsignadoRepo turnoAsignadoRepo,
-            InmuebleService inmuebleService)
+            InmuebleService inmuebleService,
+            EmailService emailService,
+            ConfigService configService)
         {
             _turnoAsignadoRepo = turnoAsignadoRepo;
             _inmuebleService = inmuebleService;
+            _emailService = emailService;
+            _configService = configService;
         }
         #endregion
 
@@ -36,6 +42,10 @@ namespace Alquilar.Services
             var inmueble = _inmuebleService.GetInmuebleById(turnoAsignado.IdInmueble);
             if (inmueble == null)
                 throw new NotFoundException("No existe el Inmueble especificado.");
+
+            var usuarioSolicitante = _turnoAsignadoRepo.GetUsuarioById(turnoAsignado.IdUsuario);
+            if (usuarioSolicitante == null)
+                throw new NotFoundException("El Usuario que reserva el turno no fue encontrado.");
 
             var horariosDueño = _turnoAsignadoRepo.GetUserHorarios(inmueble.IdUsuario);
             if (!horariosDueño.Any(x => DiaSemana.DiaSemanaIndex[x.DiaSemana] == ((int)turnoAsignado.Fecha.DayOfWeek - 1)
@@ -58,7 +68,24 @@ namespace Alquilar.Services
             _turnoAsignadoRepo.CreateTurno(turnoModel);
             _turnoAsignadoRepo.SaveChanges();
 
-            // TODO: send email to owner to let him know about the new turno
+            // Sending Notification Email to Inmueble owner
+            var config = _configService.GetConfig();
+            var sendEmailRequest = new SendEmailRequest
+            {
+                To = inmueble.Usuario.Email,
+                Subject = config.NotificacionTurnoEmailSubject,
+                Body = config.NotificacionTurnoEmailBody,
+                Tags = new Dictionary<string, string>
+                {
+                    { EmailNotificacionTags.DIRECCION_INMUEBLE, inmueble.Direccion },
+                    { EmailNotificacionTags.NOMBRE_DUEÑO, inmueble.Usuario.Nombre },
+                    { EmailNotificacionTags.NOMBRE_SOLICITANTE, usuarioSolicitante.Nombre },
+                    { EmailNotificacionTags.EMAIL_SOLICITANTE, usuarioSolicitante.Email },
+                    { EmailNotificacionTags.FECHA_RESERVA, turnoAsignado.Fecha.ToString("dd/MM/yyyy") },
+                    { EmailNotificacionTags.HORA_RESERVA, turnoAsignado.Fecha.ToString("HH:mm") },
+                }
+            };
+            _emailService.SendEmail(sendEmailRequest);
 
             return turnoModel;
         }

@@ -41,5 +41,11 @@ namespace Alquilar.DAL
                 .Where(x => x.IdUsuario == idUsuario)
                 .ToList();
         }
+
+        public Usuario GetUsuarioById(int idUsuario)
+        {
+            // Repeating UsuarioRepo code to avoid circular dependencies
+            return _db.Usuario.FirstOrDefault(x => x.IdUsuario == idUsuario);
+        }
     }
 }

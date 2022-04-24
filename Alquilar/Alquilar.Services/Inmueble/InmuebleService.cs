@@ -1,6 +1,6 @@
 ﻿using Alquilar.DAL;
-using Alquilar.Helpers.Exceptions;
 using Alquilar.Models;
+using Alquilar.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +16,7 @@ namespace Alquilar.Services
 
         #region Constructor
         public InmuebleService(InmuebleRepo inmuebleRepo,
-            TokenService tokenService)
+            ITokenService tokenService)
         {
             _inmuebleRepo = inmuebleRepo;
             _token = tokenService.GetToken();

@@ -1,7 +1,5 @@
-﻿using Alquilar.Models;
-using Alquilar.Services;
+﻿using Alquilar.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace Alquilar.API.Controllers
 {

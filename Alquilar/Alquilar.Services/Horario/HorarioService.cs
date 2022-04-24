@@ -2,6 +2,7 @@
 using Alquilar.Helpers.Consts;
 using Alquilar.Helpers.Exceptions;
 using Alquilar.Models;
+using Alquilar.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,16 +15,19 @@ namespace Alquilar.Services
         private readonly HorarioRepo _horarioRepo;
         private readonly InmuebleService _inmuebleService;
         private readonly TurnoAsignadoService _turnoAsignadoService;
+        private readonly Token _token;
         #endregion
 
         #region Constructor
         public HorarioService(HorarioRepo horarioRepo,
             InmuebleService inmuebleService,
-            TurnoAsignadoService turnoAsignadoService)
+            TurnoAsignadoService turnoAsignadoService,
+            ITokenService tokenService)
         {
             _horarioRepo = horarioRepo;
             _inmuebleService = inmuebleService;
             _turnoAsignadoService = turnoAsignadoService;
+            _token = tokenService.GetToken();
         }
         #endregion
 
@@ -79,6 +83,30 @@ namespace Alquilar.Services
             _horarioRepo.SaveChanges();
 
             return horarioModel;
+        }
+
+        public void UpdateHorario(int idHorario, HorarioDTO horario)
+        {
+            var previousHorario = _horarioRepo.GetHorarioById(idHorario);
+
+            if (previousHorario.IdUsuario != _token.IdUsuario)
+                throw new NotAuthorizedException("El Horario que intentaste modificar no te pertenece.");
+
+            var horarioModel = new Horario
+            {
+                DiaSemana = horario.DiaSemana,
+                HoraInicio = horario.HoraInicio,
+                HoraFin = horario.HoraFin,
+            };
+
+            _horarioRepo.UpdateHorario(idHorario, horarioModel);
+            _horarioRepo.SaveChanges();
+        }
+        
+        public void DeleteHorario(int idHorario)
+        {
+            _horarioRepo.DeleteHorario(idHorario);
+            _horarioRepo.SaveChanges();
         }
         #endregion
     }
