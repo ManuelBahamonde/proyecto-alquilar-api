@@ -68,12 +68,12 @@ namespace Alquilar.API.Controllers
                 Precio = inmuebleModel.Precio,
                 Habitaciones = inmuebleModel.Habitaciones,
                 Baños = inmuebleModel.Baños,
-                Ambientes = inmuebleModel.Ambientes,
-                FechaHastaAlquilada = inmuebleModel.FechaHastaAlquilada,                
+                Ambientes = inmuebleModel.Ambientes,            
                 IdLocalidad= inmuebleModel.IdLocalidad,
                 NombreCompletoLocalidad= inmuebleModel.Localidad.NombreCompleto,
                 IdTipoInmueble = inmuebleModel.IdTipoInmueble,
                 IdUsuario = inmuebleModel.IdUsuario,
+                FechaHastaAlquilada = inmuebleModel.FechaHastaAlquilada.HasValue && inmuebleModel.FechaHastaAlquilada > DateTime.Now ? inmuebleModel.FechaHastaAlquilada : null,
                 Imagenes = inmuebleModel.Imagenes.Select(i => new ImagenDTO 
                 {
                     IdImagen = i.IdImagen,

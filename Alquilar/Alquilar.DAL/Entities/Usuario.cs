@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Alquilar.DAL
@@ -16,7 +17,9 @@ namespace Alquilar.DAL
         public string Piso { get; set; }
         public string Servicio { get; set; }
         public string UrlApi { get; set; }
+        public bool Verificado { get; set; }
         public int IdRol { get; set; }
+        public int? DuracionTurno { get; set; }
 
         [ForeignKey("IdRol")]
         public Rol Rol { get; set; }
@@ -24,6 +27,8 @@ namespace Alquilar.DAL
 
         [ForeignKey("IdLocalidad")]
         public Localidad Localidad { get; set; }
+
+        public List<Horario> Horarios { get; set; }
 
     }
 }

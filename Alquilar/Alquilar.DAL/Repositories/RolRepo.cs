@@ -7,17 +7,10 @@ using System.Threading.Tasks;
 
 namespace Alquilar.DAL
 {
-    public class RolRepo
+    public class RolRepo : BaseRepo
     {
-        #region Members
-        private readonly DB _db;
-        #endregion
-
         #region Constructor
-        public RolRepo(DB db)
-        {
-            _db = db;
-        }
+        public RolRepo(DB db) : base(db) { }
         #endregion
 
         public List<Rol> GetRoles()
@@ -63,11 +56,6 @@ namespace Alquilar.DAL
                 throw new NotFoundException("No existe el Rol especificado");
 
             _db.Rol.Remove(rol);
-        }
-
-        public void SaveChanges()
-        {
-            _db.SaveChanges();
         }
     }
 }

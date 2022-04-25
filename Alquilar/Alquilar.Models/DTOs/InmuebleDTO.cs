@@ -1,9 +1,6 @@
-﻿using Alquilar.DAL;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace Alquilar.Models
 {
@@ -20,7 +17,7 @@ namespace Alquilar.Models
         //public int? IdInmuebleExterno { get; set; }
         public DateTime? FechaHastaAlquilada { get; set; }
         public int IdTipoInmueble { get; set; }
-        public List<ImagenDTO> Imagenes { get; set; }
+        public List<ImagenDTO> Imagenes { get; set; } = new List<ImagenDTO>();
         public int IdLocalidad { get; set; }
         public string NombreCompletoLocalidad { get; set; }
         public int IdUsuario { get; set; }

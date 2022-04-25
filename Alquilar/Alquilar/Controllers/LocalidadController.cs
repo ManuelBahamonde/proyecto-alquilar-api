@@ -28,9 +28,9 @@ namespace Alquilar.API.Controllers
 
         #region Endpoints
         [HttpGet]
-        public IActionResult GetLocalidades()
+        public IActionResult GetLocalidades(string searchText)
         {
-            var localidades = _localidadService.GetLocalidades();
+            var localidades = _localidadService.GetLocalidades(searchText);
 
             var formattedLocalidades = localidades.Select(x => new LocalidadDTO
             {

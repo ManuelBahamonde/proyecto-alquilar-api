@@ -8,17 +8,10 @@ using System.Threading.Tasks;
 
 namespace Alquilar.DAL
 {
-    public class UsuarioRepo
+    public class UsuarioRepo : BaseRepo
     {
-        #region Members
-        private readonly DB _db;
-        #endregion
-
         #region Constructor
-        public UsuarioRepo(DB db)
-        {
-            _db = db;
-        }
+        public UsuarioRepo(DB db) : base(db) { }
         #endregion
 
         public List<Usuario> GetUsuarios()
@@ -38,7 +31,19 @@ namespace Alquilar.DAL
                 .Usuario
                 .Include(x => x.Rol)
                 .Include(x => x.Localidad)
+                .Include(x => x.Horarios)
                 .FirstOrDefault(x => x.IdUsuario == idUsuario);
+
+            return usuario;
+        }
+
+        public Usuario GetUsuarioByNombreUsuario(string nombreUsuario)
+        {
+            var usuario = _db
+                .Usuario
+                .Include(x => x.Rol)
+                .Include(x => x.Localidad)
+                .FirstOrDefault(x => x.NombreUsuario == nombreUsuario);
 
             return usuario;
         }
@@ -84,10 +89,6 @@ namespace Alquilar.DAL
                 throw new NotFoundException("No existe el Usuario especificado");
 
             _db.Usuario.Remove(usuario);
-        }
-        public void SaveChanges()
-        {
-            _db.SaveChanges();
         }
     }
 }

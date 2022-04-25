@@ -5,7 +5,7 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace Alquilar.Models.Middlewares
+namespace Alquilar.API.Middlewares
 {
     public class ExceptionMiddleware
     {
@@ -30,12 +30,16 @@ namespace Alquilar.Models.Middlewares
             {
                 await HandleExceptionAsync(httpContext, HttpStatusCode.NotFound, exc.Message);
             }
+            catch (NotAuthorizedException exc)
+            {
+                await HandleExceptionAsync(httpContext, HttpStatusCode.Unauthorized, exc.Message);
+            }
             catch (Exception exc)
             {
                 await HandleExceptionAsync(httpContext, HttpStatusCode.InternalServerError, exc.Message);
             }
         }
-        private async Task HandleExceptionAsync(HttpContext context, HttpStatusCode statusCode, string message)
+        private static async Task HandleExceptionAsync(HttpContext context, HttpStatusCode statusCode, string message)
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)statusCode;

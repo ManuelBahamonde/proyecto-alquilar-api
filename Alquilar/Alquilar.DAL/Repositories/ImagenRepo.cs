@@ -7,17 +7,10 @@ using System.Threading.Tasks;
 
 namespace Alquilar.DAL
 {
-    public class ImagenRepo
+    public class ImagenRepo : BaseRepo
     {
-        #region Members
-        private readonly DB _db;
-        #endregion
-
         #region Constructor
-        public ImagenRepo(DB db)
-        {
-            _db = db;
-        }
+        public ImagenRepo(DB db) : base(db) { }
         #endregion
 
         public List<Imagen> GetImagenes()
@@ -65,11 +58,6 @@ namespace Alquilar.DAL
                 throw new NotFoundException("No existe la Imagen especificada");
 
             _db.Imagen.Remove(imagen);
-        }
-
-        public void SaveChanges()
-        {
-            _db.SaveChanges();
         }
     }
 }

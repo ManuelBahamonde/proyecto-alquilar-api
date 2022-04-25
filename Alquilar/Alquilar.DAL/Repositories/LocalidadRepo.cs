@@ -8,25 +8,23 @@ using System.Threading.Tasks;
 
 namespace Alquilar.DAL
 {
-    public class LocalidadRepo
+    public class LocalidadRepo : BaseRepo
     {
-        #region Members
-        private readonly DB _db;
-        #endregion
-
         #region Constructor
-        public LocalidadRepo(DB db)
-        {
-            _db = db;
-        }
+        public LocalidadRepo(DB db) : base(db) { }
         #endregion
 
-        public List<Localidad> GetLocalidades()
+        public List<Localidad> GetLocalidades(string searchText)
         {
-            var localidades = _db
+            var query = _db
                 .Localidad
                 .Include(x => x.Provincia)
-                .ToList();
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchText))
+                query = query.Where(x => x.Nombre.Contains(searchText) || x.Provincia.Nombre.Contains(searchText));
+
+            var localidades = query.ToList();
 
             return localidades;
         }
@@ -72,10 +70,6 @@ namespace Alquilar.DAL
                 throw new NotFoundException("No existe la Localidad especificada");
 
             _db.Localidad.Remove(localidad);
-        }
-        public void SaveChanges()
-        {
-            _db.SaveChanges();
         }
     }
 }

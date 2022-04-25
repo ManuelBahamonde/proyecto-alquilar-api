@@ -8,17 +8,10 @@ using System.Threading.Tasks;
 
 namespace Alquilar.DAL
 {
-    public class InmuebleRepo
+    public class InmuebleRepo : BaseRepo
     {
-        #region Members
-        private readonly DB _db;
-        #endregion
-
         #region Constructor
-        public InmuebleRepo(DB db)
-        {
-            _db = db;
-        }
+        public InmuebleRepo(DB db) : base(db) { }
         #endregion
 
         public List<Inmueble> GetInmuebles()
@@ -88,10 +81,6 @@ namespace Alquilar.DAL
                 throw new NotFoundException("No existe el Inmueble especificado");
 
             _db.Inmueble.Remove(inmueble);
-        }
-        public void SaveChanges()
-        {
-            _db.SaveChanges();
         }
     }
 }
