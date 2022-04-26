@@ -52,6 +52,7 @@ namespace Alquilar.Services
 
             return new HorarioInfoDTO
             {
+                DuracionTurno = inmueble.Usuario.DuracionTurno,
                 Horarios = horarios.Select(h => new HorarioDTO
                 {
                     DiaSemana = h.DiaSemana,
