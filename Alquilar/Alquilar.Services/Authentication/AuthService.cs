@@ -1,8 +1,11 @@
 ﻿using Alquilar.DAL;
+using Alquilar.Helpers.Consts;
 using Alquilar.Helpers.Exceptions;
 using Alquilar.Models;
 using Alquilar.Services.Interfaces;
+using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
 
 namespace Alquilar.Services
 {
@@ -12,16 +15,28 @@ namespace Alquilar.Services
         #region Members
         private readonly UsuarioRepo _usuarioRepo;
         private readonly HorarioService _horarioService;
+        private readonly RolService _rolService;
+        private readonly EmailService _emailService;
+        private readonly ConfigService _configService;
+        private readonly FrontendSettings _frontendSettings;
         private readonly ITokenService _tokenService;
         #endregion
 
         #region Constructor
         public AuthService(UsuarioRepo usuarioRepo,
             HorarioService horarioService,
+            RolService rolService,
+            EmailService emailService,
+            ConfigService configService,
+            IOptions<FrontendSettings> options,
             ITokenService tokenService)
         {
             _usuarioRepo = usuarioRepo;
             _horarioService = horarioService;
+            _rolService = rolService;
+            _emailService = emailService;
+            _configService = configService;
+            _frontendSettings = options.Value;
             _tokenService = tokenService;
         }
         #endregion
@@ -41,6 +56,10 @@ namespace Alquilar.Services
             if (_usuarioRepo.GetUsuarioByNombreUsuario(usuario.NombreUsuario) != null)
                 throw new ArgumentException("Ya existe un Usuario con ese nombre de Usuario.");
 
+            var rol = _rolService.GetRolById(usuario.IdRol);
+            if (rol == null)
+                throw new ArgumentException("El rol especificado no existe.");
+
             // Beginning Transaction so we can create Usuario and Horario in the same transaction
             _usuarioRepo.BeginTransaction();
 
@@ -58,7 +77,7 @@ namespace Alquilar.Services
                 UrlApi = usuario.UrlApi,
                 IdRol = usuario.IdRol,
                 IdLocalidad = usuario.IdLocalidad,
-                Verificado = true, // TODO: hacer que verificado sea false cuando el rol sea Inmobiliaria y no permitir login cuando verificado sea false
+                Verificado = rol.Descripcion != RolDescription.INMOBILIARIA,
                 DuracionTurno = usuario.Horarios.Count > 0 ? usuario.DuracionTurno : null,
             };
 
@@ -77,6 +96,30 @@ namespace Alquilar.Services
             // Committing changes
             _usuarioRepo.Commit();
 
+            // Let Admins know that a new Inmobiliaria has just registered and is waiting for verification
+            if (rol.Descripcion == RolDescription.INMOBILIARIA)
+            {
+                var admins = _usuarioRepo.GetUsuarios(RolDescription.ADMINISTRADOR);
+                var config = _configService.GetConfig();
+
+                admins.ForEach(admin =>
+                {
+                    var sendRq = new SendEmailRequest
+                    {
+                        To = admin.Email,
+                        Subject = config.NotificacionAdminNuevaInmobiliariaSubject,
+                        Body = config.NotificacionAdminNuevaInmobiliariaBody,
+                        Tags = new Dictionary<string, string>
+                        {
+                            { EmailNotificacionTags.NOMBRE_ADMINISTRADOR, admin.Nombre },
+                            { EmailNotificacionTags.NOMBRE_INMOBILIARIA, usuarioModel.Nombre },
+                            { EmailNotificacionTags.LINK, _frontendSettings.VerifyInmobiliariaUrl }
+                        },
+                    };
+                    _emailService.SendEmail(sendRq);
+                });
+            }
+
             return usuarioModel;
         }
         
@@ -93,6 +136,9 @@ namespace Alquilar.Services
             var dbUser = _usuarioRepo.GetUsuarioByNombreUsuario(usuario.NombreUsuario);
             if (dbUser == null || dbUser.Clave != CreatePasswordHash(usuario.Clave))
                 throw new NotFoundException("El Nombre de Usuario o la Clave son incorrectas.");
+
+            if (!dbUser.Verificado)
+                throw new InvalidOperationException("Tu Usuario todavia no fue verificado por un Administrador. Te notificaremos por correo electronico cuando lo haga.");
 
             return _tokenService.GenerateToken(dbUser);
         }

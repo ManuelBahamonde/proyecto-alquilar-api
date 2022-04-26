@@ -13,5 +13,9 @@ namespace Alquilar.DAL
         public int IdConfig { get; set; }
         public string NotificacionTurnoEmailSubject { get; set; }
         public string NotificacionTurnoEmailBody { get; set; }
+        public string NotificacionAdminNuevaInmobiliariaSubject { get; set; }
+        public string NotificacionAdminNuevaInmobiliariaBody { get; set; }
+        public string NotificacionInmobiliariaVerificadaSubject { get; set; }
+        public string NotificacionInmobiliariaVerificadaBody { get; set; }
     }
 }

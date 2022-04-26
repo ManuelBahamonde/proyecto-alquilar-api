@@ -26,49 +26,18 @@ namespace Alquilar.API.Controllers
         {
             var usuarios = _usuarioService.GetUsuarios();
 
-            var formattedUsuarios = usuarios.Select(x => new UsuarioDTO
-            {
-                IdUsuario = x.IdUsuario,
-                NombreUsuario = x.NombreUsuario,
-                Clave = x.Clave,
-                Nombre = x.Nombre,
-                Telefono = x.Telefono,
-                Email = x.Email,
-                Direccion = x.Direccion,
-                Piso = x.Piso,
-                Servicio = x.Servicio,
-                UrlApi = x.UrlApi,
-                IdRol = x.IdRol,
-                IdLocalidad = x.IdLocalidad
-        }).ToList();
-
-            return Ok(formattedUsuarios);
+            return Ok(usuarios);
         }
 
         [HttpGet("{idUsuario}", Name = "GetUsuario")]
         public IActionResult GetUsuario(int idUsuario)
         {
-            var usuarioModel = _usuarioService.GetUsuarioById(idUsuario);
+            var usuario = _usuarioService.GetUsuarioById(idUsuario);
 
-            if (usuarioModel is null)
+            if (usuario is null)
                 return NotFound();
 
-            return Ok(new UsuarioDTO
-            {
-
-                IdUsuario = usuarioModel.IdUsuario,
-                NombreUsuario = usuarioModel.NombreUsuario,
-                Clave = usuarioModel.Clave,
-                Nombre = usuarioModel.Nombre,
-                Telefono = usuarioModel.Telefono,
-                Email = usuarioModel.Email,
-                Direccion = usuarioModel.Direccion,
-                Piso = usuarioModel.Piso,
-                Servicio = usuarioModel.Servicio,
-                UrlApi = usuarioModel.UrlApi,
-                IdRol = usuarioModel.IdRol,
-                IdLocalidad = usuarioModel.IdLocalidad
-            });
+            return Ok(usuario);
         }
 
         [HttpPut("{idUsuario}")]
@@ -86,6 +55,22 @@ namespace Alquilar.API.Controllers
 
             
             return NoContent();
+        }
+
+        [HttpGet("verificacion")]
+        public IActionResult GetUsuariosPorVerificar()
+        {
+            var usuarios = _usuarioService.GetUsuariosPorVerificar();
+
+            return Ok(usuarios);
+        }
+        
+        [HttpPost("verificacion/{idUsuario}")]
+        public IActionResult VerifyUsuario(int idUsuario)
+        {
+            _usuarioService.VerifyUsuario(idUsuario);
+
+            return Ok();
         }
         #endregion
     }

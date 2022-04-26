@@ -68,6 +68,7 @@ namespace Alquilar
             #region Settings
             services.Configure<JwtSettings>(Configuration.GetSection(Settings.JwtSettings));
             services.Configure<EmailSettings>(Configuration.GetSection(Settings.EmailSettings));
+            services.Configure<FrontendSettings>(Configuration.GetSection(Settings.FrontendSettings));
             #endregion
 
             #region JWT

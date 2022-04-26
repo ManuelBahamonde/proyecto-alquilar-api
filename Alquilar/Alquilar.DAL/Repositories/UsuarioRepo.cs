@@ -1,4 +1,5 @@
-﻿using Alquilar.Helpers.Exceptions;
+﻿using Alquilar.Helpers.Consts;
+using Alquilar.Helpers.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,13 +15,18 @@ namespace Alquilar.DAL
         public UsuarioRepo(DB db) : base(db) { }
         #endregion
 
-        public List<Usuario> GetUsuarios()
+        public List<Usuario> GetUsuarios(string rolDescription = null)
         {
-            var usuarios = _db
+            var query = _db
                 .Usuario
                 .Include(x => x.Rol)
                 .Include(x => x.Localidad)
-                .ToList();
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(rolDescription))
+                query = query.Where(x => x.Rol.Descripcion == rolDescription);
+
+            var usuarios = query.ToList();
 
             return usuarios;
         }
@@ -89,6 +95,15 @@ namespace Alquilar.DAL
                 throw new NotFoundException("No existe el Usuario especificado");
 
             _db.Usuario.Remove(usuario);
+        }
+
+        public List<Usuario> GetUsuariosNoVerificados()
+        {
+            return _db
+                .Usuario
+                .Include(x => x.Rol)
+                .Where(x => x.Rol.Descripcion == RolDescription.INMOBILIARIA && !x.Verificado)
+                .ToList();
         }
     }
 }
