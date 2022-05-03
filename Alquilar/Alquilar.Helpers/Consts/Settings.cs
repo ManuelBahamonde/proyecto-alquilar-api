@@ -5,5 +5,6 @@ namespace Alquilar.Helpers.Consts
     {
         public const string JwtSettings = "JwtSettings";
         public const string EmailSettings = "EmailSettings";
+        public const string FrontendSettings = "FrontendSettings";
     }
 }

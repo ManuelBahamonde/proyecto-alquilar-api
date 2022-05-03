@@ -9,5 +9,9 @@ namespace Alquilar.Helpers.Consts
         public const string EMAIL_SOLICITANTE = "[EMAIL_SOLICITANTE]";
         public const string FECHA_RESERVA = "[FECHA_RESERVA]";
         public const string HORA_RESERVA = "[HORA_RESERVA]";
+
+        public const string NOMBRE_ADMINISTRADOR = "[NOMBRE_ADMINISTRADOR]";
+        public const string NOMBRE_INMOBILIARIA = "[NOMBRE_INMOBILIARIA]";
+        public const string LINK = "[LINK]";
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Alquilar.DAL;
+using Alquilar.Helpers.Consts;
 using Alquilar.Helpers.Exceptions;
 using Alquilar.Models;
 using Alquilar.Services.Interfaces;
@@ -13,28 +14,40 @@ namespace Alquilar.Services
         #region Members
         private readonly UsuarioRepo _usuarioRepo;
         private readonly HorarioService _horarioService;
+        private readonly EmailService _emailService;
+        private readonly ConfigService _configService;
+        private readonly Token _token;
         #endregion
 
         #region Constructor
         public UsuarioService(UsuarioRepo usuarioRepo,
             HorarioService horarioService,
+            EmailService emailService,
+            ConfigService configService,
             ITokenService tokenService)
         {
             _usuarioRepo = usuarioRepo;
             _horarioService = horarioService;
+            _emailService = emailService;
+            _configService = configService;
+            _token = tokenService.GetToken();
         }
         #endregion
 
         #region CRUD
         // Read
-        public List<Usuario> GetUsuarios()
+        public List<UsuarioDTO> GetUsuarios()
         {
-            return _usuarioRepo.GetUsuarios();
+            var usuarios = _usuarioRepo.GetUsuarios();
+
+            return usuarios.Select(MapUsuarioToDTO).ToList();
         }
 
-        public Usuario GetUsuarioById(int idUsuario)
+        public UsuarioDTO GetUsuarioById(int idUsuario)
         {
-            return _usuarioRepo.GetUsuarioById(idUsuario);
+            var usuarioModel = _usuarioRepo.GetUsuarioById(idUsuario);
+
+            return MapUsuarioToDTO(usuarioModel);
         }
 
         // Update
@@ -84,5 +97,75 @@ namespace Alquilar.Services
         }
         #endregion
 
+        public List<UsuarioDTO> GetUsuariosPorVerificar()
+        {
+            if (_token.NombreRol != RolDescription.ADMINISTRADOR)
+                throw new NotAuthorizedException("No autorizado");
+
+            var usuarios = _usuarioRepo.GetUsuariosNoVerificados();
+
+            return usuarios.Select(MapUsuarioToDTO).ToList();
+        }
+
+        public void VerifyUsuario(int idUsuario, bool reject)
+        {
+            if (_token.NombreRol != RolDescription.ADMINISTRADOR)
+                throw new NotAuthorizedException("No autorizado");
+
+            var usuario = _usuarioRepo.GetUsuarioById(idUsuario);
+            if (usuario == null)
+                throw new NotFoundException("No existe el Usuario especificado.");
+
+            if (usuario.Rol.Descripcion != RolDescription.INMOBILIARIA || usuario.Verificado)
+                throw new InvalidOperationException("El Usuario especificado no es una Inmobiliaria o bien ya esta Verificado.");
+
+            if (reject)
+            {
+                DeleteUsuario(idUsuario);
+            } else
+            {
+                usuario.Verificado = true;
+                _usuarioRepo.SaveChanges();
+            }
+
+            // Letting Inmobiliaria know that its User has been just verified/rejected
+            var config = _configService.GetConfig();
+
+            var sendRq = new SendEmailRequest
+            {
+                To = usuario.Email,
+                Subject = reject ? config.NotificacionInmobiliariaRechazadaSubject : config.NotificacionInmobiliariaVerificadaSubject,
+                Body = reject ? config.NotificacionInmobiliariaRechazadaBody : config.NotificacionInmobiliariaVerificadaBody,
+                Tags = new Dictionary<string, string>
+                {
+                    { EmailNotificacionTags.NOMBRE_INMOBILIARIA, usuario.Nombre }
+                },
+            };
+            _emailService.SendEmail(sendRq);
+        }
+
+        #region Private Helpers
+        private UsuarioDTO MapUsuarioToDTO(Usuario usuario)
+        {
+            if (usuario == null)
+                return null;
+
+            return new UsuarioDTO
+            {
+                IdUsuario = usuario.IdUsuario,
+                NombreUsuario = usuario.NombreUsuario,
+                Clave = usuario.Clave,
+                Nombre = usuario.Nombre,
+                Telefono = usuario.Telefono,
+                Email = usuario.Email,
+                Direccion = usuario.Direccion,
+                Piso = usuario.Piso,
+                Servicio = usuario.Servicio,
+                UrlApi = usuario.UrlApi,
+                IdRol = usuario.IdRol,
+                IdLocalidad = usuario.IdLocalidad
+            };
+        }
+        #endregion
     }
 }
