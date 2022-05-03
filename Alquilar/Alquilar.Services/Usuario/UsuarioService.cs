@@ -107,7 +107,7 @@ namespace Alquilar.Services
             return usuarios.Select(MapUsuarioToDTO).ToList();
         }
 
-        public void VerifyUsuario(int idUsuario)
+        public void VerifyUsuario(int idUsuario, bool reject)
         {
             if (_token.NombreRol != RolDescription.ADMINISTRADOR)
                 throw new NotAuthorizedException("No autorizado");
@@ -119,17 +119,23 @@ namespace Alquilar.Services
             if (usuario.Rol.Descripcion != RolDescription.INMOBILIARIA || usuario.Verificado)
                 throw new InvalidOperationException("El Usuario especificado no es una Inmobiliaria o bien ya esta Verificado.");
 
-            usuario.Verificado = true;
-            _usuarioRepo.SaveChanges();
+            if (reject)
+            {
+                DeleteUsuario(idUsuario);
+            } else
+            {
+                usuario.Verificado = true;
+                _usuarioRepo.SaveChanges();
+            }
 
-            // Letting Inmobiliaria know that its User has been just verified
+            // Letting Inmobiliaria know that its User has been just verified/rejected
             var config = _configService.GetConfig();
 
             var sendRq = new SendEmailRequest
             {
                 To = usuario.Email,
-                Subject = config.NotificacionInmobiliariaVerificadaSubject,
-                Body = config.NotificacionInmobiliariaVerificadaBody,
+                Subject = reject ? config.NotificacionInmobiliariaRechazadaSubject : config.NotificacionInmobiliariaVerificadaSubject,
+                Body = reject ? config.NotificacionInmobiliariaRechazadaBody : config.NotificacionInmobiliariaVerificadaBody,
                 Tags = new Dictionary<string, string>
                 {
                     { EmailNotificacionTags.NOMBRE_INMOBILIARIA, usuario.Nombre }

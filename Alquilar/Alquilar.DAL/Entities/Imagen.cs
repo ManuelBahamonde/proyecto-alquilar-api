@@ -10,5 +10,8 @@ namespace Alquilar.DAL
         public string Url { get; set; }
         public int? IdUsuario { get; set; }
         public int? IdInmueble { get; set; }
+
+        [ForeignKey("IdInmueble")]
+        public Inmueble Inmueble { get; set; }
     }
 }

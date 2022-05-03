@@ -68,7 +68,14 @@ namespace Alquilar.API.Controllers
         [HttpPost("verificacion/{idUsuario}")]
         public IActionResult VerifyUsuario(int idUsuario)
         {
-            _usuarioService.VerifyUsuario(idUsuario);
+            _usuarioService.VerifyUsuario(idUsuario, false);
+
+            return Ok();
+        }
+        [HttpPost("rechazar/{idUsuario}")]
+        public IActionResult RejectUsuario(int idUsuario)
+        {
+            _usuarioService.VerifyUsuario(idUsuario, true);
 
             return Ok();
         }

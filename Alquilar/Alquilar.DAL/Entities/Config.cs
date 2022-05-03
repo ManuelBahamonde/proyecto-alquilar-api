@@ -17,5 +17,7 @@ namespace Alquilar.DAL
         public string NotificacionAdminNuevaInmobiliariaBody { get; set; }
         public string NotificacionInmobiliariaVerificadaSubject { get; set; }
         public string NotificacionInmobiliariaVerificadaBody { get; set; }
+        public string NotificacionInmobiliariaRechazadaSubject { get; set; }
+        public string NotificacionInmobiliariaRechazadaBody { get; set; }
     }
 }
