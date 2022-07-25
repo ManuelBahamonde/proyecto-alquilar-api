@@ -20,6 +20,13 @@ namespace Alquilar.DAL
             return roles;
         }
 
+        public List<Rol> GetRolesPosiblesParaRegistro()
+        {
+            var roles = _db.Rol.ToList();
+
+            return roles;
+        }
+
         public Rol GetRolById(int idRol)
         {
             var rol = _db.Rol.FirstOrDefault(x => x.IdRol == idRol);

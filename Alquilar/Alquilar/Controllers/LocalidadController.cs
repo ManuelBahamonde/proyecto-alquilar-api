@@ -2,6 +2,7 @@
 using Alquilar.Helpers.Exceptions;
 using Alquilar.Models;
 using Alquilar.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -28,6 +29,7 @@ namespace Alquilar.API.Controllers
 
         #region Endpoints
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult GetLocalidades(string searchText)
         {
             var localidades = _localidadService.GetLocalidades(searchText);

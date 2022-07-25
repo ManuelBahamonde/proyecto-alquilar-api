@@ -2,6 +2,7 @@
 using Alquilar.Helpers.Exceptions;
 using Alquilar.Models;
 using Alquilar.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -28,6 +29,7 @@ namespace Alquilar.API.Controllers
 
         #region Endpoints
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult GetRoles()
         {
             var roles = _rolService.GetRoles();
@@ -37,6 +39,21 @@ namespace Alquilar.API.Controllers
                 IdRol = x.IdRol,
                 Descripcion = x.Descripcion,
             }).ToList();
+
+            return Ok(formattedRoles);
+        }
+
+        [HttpGet("GetRolesPosiblesParaRegistro")]
+        [AllowAnonymous]
+        public IActionResult GetRolesPosiblesParaRegistro()
+        {
+            var roles = _rolService.GetRolesPosiblesParaRegistro();
+
+            var formattedRoles = roles.Select(x => new RolDTO
+            {
+                IdRol = x.IdRol,
+                Descripcion = x.Descripcion,
+            }).Where(x => x.Descripcion != "Administrador").ToList();
 
             return Ok(formattedRoles);
         }
