@@ -1,6 +1,7 @@
 ﻿using Alquilar.Helpers.Exceptions;
 using Alquilar.Models;
 using Alquilar.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -23,8 +24,9 @@ namespace Alquilar.API.Controllers
         #endregion
 
         #region Endpoints
+        [AllowAnonymous]
         [HttpGet]
-        public IActionResult GetInmuebles(SearchInmueblesRequest rq)
+        public IActionResult GetInmuebles([FromQuery] SearchInmueblesRequest rq)
         {
             var inmuebles = _inmuebleService.GetInmuebles(rq);
 
