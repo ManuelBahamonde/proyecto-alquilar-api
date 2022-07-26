@@ -48,6 +48,11 @@ namespace Alquilar.Services
             return _rolRepo.GetRoles();
         }
 
+        public List<Rol> GetRolesPosiblesParaRegistro()
+        {
+            return _rolRepo.GetRolesPosiblesParaRegistro();
+        }
+
         public Rol GetRolById(int idRol)
         {
             return _rolRepo.GetRolById(idRol);
