@@ -44,10 +44,6 @@ namespace Alquilar.DAL
 
                 if (rq.IdLocalidad.HasValue)
                     query = query.Where(x => x.IdLocalidad == rq.IdLocalidad.Value);
-
-                if (rq.IdProvincia.HasValue)
-                    query = query.Where(x => x.Localidad.IdProvincia == rq.IdProvincia.Value);
-
             }
 
             return query.ToList(); ;

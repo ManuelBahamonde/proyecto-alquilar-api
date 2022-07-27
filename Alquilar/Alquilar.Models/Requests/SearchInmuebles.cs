@@ -9,6 +9,5 @@ namespace Alquilar.Models
         public int? Ambientes { get; set; }
         public DateTime? FechaDisponibilidad { get; set; }
         public int? IdLocalidad { get; set; }
-        public int? IdProvincia { get; set; }
     }
 }
