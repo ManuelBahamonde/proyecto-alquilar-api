@@ -1,4 +1,5 @@
 ﻿using Alquilar.Helpers.Exceptions;
+using Alquilar.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,17 +15,38 @@ namespace Alquilar.DAL
         public InmuebleRepo(DB db) : base(db) { }
         #endregion
 
-        public List<Inmueble> GetInmuebles()
+        public List<Inmueble> GetInmuebles(SearchInmueblesRequest rq = null)
         {
-            var inmuebles = _db
+            var query = _db
                 .Inmueble
                 .Include(x => x.TipoInmueble)
                 .Include(x => x.Localidad).ThenInclude(x => x.Provincia)
                 .Include(x => x.Usuario)
                 .Include(x => x.Imagenes)
-                .ToList();
+                .AsQueryable();
 
-            return inmuebles;
+            if (rq != null)
+            {
+                if (rq.Habitaciones.HasValue)
+                    query = query.Where(x => x.Habitaciones == rq.Habitaciones.Value);
+
+                if (rq.Banos.HasValue)
+                    query = query.Where(x => x.Baños == rq.Banos.Value);
+
+                if (rq.Habitaciones.HasValue)
+                    query = query.Where(x => x.Habitaciones == rq.Habitaciones.Value);
+
+                if (rq.Ambientes.HasValue)
+                    query = query.Where(x => x.Ambientes == rq.Ambientes.Value);
+
+                if (rq.FechaDisponibilidad.HasValue)
+                    query = query.Where(x => !x.FechaHastaAlquilada.HasValue || x.FechaHastaAlquilada < rq.FechaDisponibilidad);
+
+                if (rq.IdLocalidad.HasValue)
+                    query = query.Where(x => x.IdLocalidad == rq.IdLocalidad.Value);
+            }
+
+            return query.ToList(); ;
         }
 
         public Inmueble GetInmuebleById(int idInmueble)

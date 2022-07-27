@@ -63,9 +63,9 @@ namespace Alquilar.Services
         }
 
         // Read
-        public List<Inmueble> GetInmuebles()
+        public List<Inmueble> GetInmuebles(SearchInmueblesRequest rq = null)
         {
-            return _inmuebleRepo.GetInmuebles();
+            return _inmuebleRepo.GetInmuebles(rq);
         }
 
         public Inmueble GetInmuebleById(int idInmueble)

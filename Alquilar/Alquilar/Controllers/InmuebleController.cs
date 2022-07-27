@@ -1,6 +1,7 @@
 ﻿using Alquilar.Helpers.Exceptions;
 using Alquilar.Models;
 using Alquilar.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -23,10 +24,11 @@ namespace Alquilar.API.Controllers
         #endregion
 
         #region Endpoints
+        [AllowAnonymous]
         [HttpGet]
-        public IActionResult GetInmuebles()
+        public IActionResult GetInmuebles([FromQuery] SearchInmueblesRequest rq)
         {
-            var inmuebles = _inmuebleService.GetInmuebles();
+            var inmuebles = _inmuebleService.GetInmuebles(rq);
 
             var formattedInmuebles = inmuebles.Select(x => new InmuebleDTO
             {
@@ -47,7 +49,6 @@ namespace Alquilar.API.Controllers
         {
             var newInmueble = _inmuebleService.CreateInmueble(inmueble);
 
-            
             return CreatedAtRoute(nameof(GetInmueble), new { idInmueble = newInmueble.IdInmueble }, newInmueble);
         }
 
