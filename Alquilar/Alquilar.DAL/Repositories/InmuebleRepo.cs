@@ -44,9 +44,12 @@ namespace Alquilar.DAL
 
                 if (rq.IdLocalidad.HasValue)
                     query = query.Where(x => x.IdLocalidad == rq.IdLocalidad.Value);
+
+                if (rq.IdUsuario.HasValue)
+                    query = query.Where(x => x.IdUsuario == rq.IdUsuario.Value);
             }
 
-            return query.ToList(); ;
+            return query.ToList();
         }
 
         public Inmueble GetInmuebleById(int idInmueble)
