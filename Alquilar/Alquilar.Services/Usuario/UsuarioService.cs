@@ -55,15 +55,12 @@ namespace Alquilar.Services
         {
             var usuarioModel = _usuarioRepo.GetUsuarioById(idUsuario);
 
-            usuarioModel.Clave = usuario.Clave;
             usuarioModel.Nombre = usuario.Nombre;
             usuarioModel.Telefono = usuario.Telefono;
             usuarioModel.Email = usuario.Email;
             usuarioModel.Piso = usuario.Piso;
-            usuarioModel.Servicio = usuario.Servicio;
-            usuarioModel.UrlApi = usuario.UrlApi;
-            usuarioModel.IdRol = usuario.IdRol;
             usuarioModel.IdLocalidad = usuario.IdLocalidad;
+            usuarioModel.DuracionTurno = usuario.DuracionTurno;
 
             _usuarioRepo.BeginTransaction();
 
@@ -78,9 +75,14 @@ namespace Alquilar.Services
             usuario.Horarios.ForEach(h =>
             {
                 if (!h.IdHorario.HasValue)
+                {
+                    h.IdUsuario = usuarioModel.IdUsuario;
                     _horarioService.CreateHorario(h);
+                }
                 else
+                {
                     _horarioService.UpdateHorario(h.IdHorario.Value, h);
+                }
             });
             toDeleteIdsHorario.ForEach(_horarioService.DeleteHorario);
 
@@ -145,7 +147,7 @@ namespace Alquilar.Services
         }
 
         #region Private Helpers
-        private UsuarioDTO MapUsuarioToDTO(Usuario usuario)
+        public static UsuarioDTO MapUsuarioToDTO(Usuario usuario)
         {
             if (usuario == null)
                 return null;
@@ -163,7 +165,10 @@ namespace Alquilar.Services
                 Servicio = usuario.Servicio,
                 UrlApi = usuario.UrlApi,
                 IdRol = usuario.IdRol,
-                IdLocalidad = usuario.IdLocalidad
+                IdLocalidad = usuario.IdLocalidad,
+                NombreCompletoLocalidad = usuario.Localidad.NombreCompleto,
+                DuracionTurno = usuario.DuracionTurno,
+                Horarios = usuario.Horarios.Select(h => HorarioService.MapHorarioToDTO(h)).ToList(),
             };
         }
         #endregion

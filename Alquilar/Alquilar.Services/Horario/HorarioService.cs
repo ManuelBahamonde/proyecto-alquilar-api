@@ -35,13 +35,7 @@ namespace Alquilar.Services
         public List<HorarioDTO> GetUserHorarios(int idUsuario)
         {
             var horarios = _horarioRepo.GetUserHorarios(idUsuario);
-            return horarios.Select(h => new HorarioDTO
-            {
-                DiaSemana = h.DiaSemana,
-                NumeroDiaSemana = DiaSemana.DiaSemanaIndex[h.DiaSemana],
-                HoraInicio = h.HoraInicio,
-                HoraFin = h.HoraFin
-            }).ToList();
+            return horarios.Select(h => MapHorarioToDTO(h)).ToList();
         }
         
         public HorarioInfoDTO GetHorariosForInmueble(int idInmueble)
@@ -109,6 +103,17 @@ namespace Alquilar.Services
             _horarioRepo.DeleteHorario(idHorario);
             _horarioRepo.SaveChanges();
         }
+
+        public static HorarioDTO MapHorarioToDTO(Horario horarioModel)
+        {
+            return new HorarioDTO
+            {
+                DiaSemana = horarioModel.DiaSemana,
+                NumeroDiaSemana = DiaSemana.DiaSemanaIndex[horarioModel.DiaSemana],
+                HoraInicio = horarioModel.HoraInicio,
+                HoraFin = horarioModel.HoraFin
+            };
+        } 
         #endregion
     }
 }
