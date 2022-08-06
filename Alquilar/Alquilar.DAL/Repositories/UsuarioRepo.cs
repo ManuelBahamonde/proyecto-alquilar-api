@@ -36,7 +36,7 @@ namespace Alquilar.DAL
             var usuario = _db
                 .Usuario
                 .Include(x => x.Rol)
-                .Include(x => x.Localidad)
+                .Include(x => x.Localidad).ThenInclude(x => x.Provincia)
                 .Include(x => x.Horarios)
                 .FirstOrDefault(x => x.IdUsuario == idUsuario);
 
