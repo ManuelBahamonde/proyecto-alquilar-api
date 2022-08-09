@@ -102,6 +102,8 @@ namespace Alquilar.DAL
             return _db
                 .Usuario
                 .Include(x => x.Rol)
+                .Include(x => x.Horarios)
+                .Include(x => x.Localidad)
                 .Where(x => x.Rol.Descripcion == RolDescription.INMOBILIARIA && !x.Verificado)
                 .ToList();
         }
