@@ -52,6 +52,9 @@ namespace Alquilar.DAL
 
                 if (rq.IdUsuario.HasValue)
                     query = query.Where(x => x.IdUsuario == rq.IdUsuario.Value);
+
+                if (rq.IdTipoInmueble.HasValue)
+                    query = query.Where(x => x.IdTipoInmueble == rq.IdTipoInmueble);
             }
 
             return query.ToList();
