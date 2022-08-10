@@ -87,14 +87,14 @@ namespace Alquilar.Services
                 Habitaciones = inmueble.Habitaciones,
                 Baños = inmueble.Baños,
                 Ambientes = inmueble.Ambientes,
-                //IdInmuebleExterno = inmueble.IdInmuebleExterno,
                 FechaHastaAlquilada = inmueble.FechaHastaAlquilada,
                 IdTipoInmueble = inmueble.IdTipoInmueble,
                 Imagenes = inmueble.Imagenes.Select(i => new Imagen
                 {
                     Url = i.Url,
                 }).ToList(),
-                IdLocalidad = inmueble.IdLocalidad
+                IdLocalidad = inmueble.IdLocalidad,
+                IdUsuario = inmuebleModel.IdUsuario,
             };
 
             var rqIdsImagen = inmueble
@@ -115,7 +115,7 @@ namespace Alquilar.Services
             });
             toDeleteIdsImagen.ForEach(_imagenService.DeleteImagen);
 
-            _inmuebleRepo.UpdateInmueble(idInmueble, inmuebleModel);
+            _inmuebleRepo.UpdateInmueble(idInmueble, newInmuebleModel);
             _inmuebleRepo.SaveChanges();
         }
 

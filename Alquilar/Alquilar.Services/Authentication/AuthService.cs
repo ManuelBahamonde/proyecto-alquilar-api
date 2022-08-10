@@ -18,6 +18,7 @@ namespace Alquilar.Services
         private readonly RolService _rolService;
         private readonly EmailService _emailService;
         private readonly ConfigService _configService;
+        private readonly LocalidadService _localidadService;
         private readonly FrontendSettings _frontendSettings;
         private readonly ITokenService _tokenService;
         #endregion
@@ -28,6 +29,7 @@ namespace Alquilar.Services
             RolService rolService,
             EmailService emailService,
             ConfigService configService,
+            LocalidadService localidadService,
             IOptions<FrontendSettings> options,
             ITokenService tokenService)
         {
@@ -38,6 +40,7 @@ namespace Alquilar.Services
             _configService = configService;
             _frontendSettings = options.Value;
             _tokenService = tokenService;
+            _localidadService = localidadService;
         }
         #endregion
 
@@ -59,6 +62,10 @@ namespace Alquilar.Services
             var rol = _rolService.GetRolById(usuario.IdRol);
             if (rol == null)
                 throw new ArgumentException("El rol especificado no existe.");
+
+            var localidad = _localidadService.GetLocalidadById(usuario.IdLocalidad);
+            if (localidad == null)
+                throw new ArgumentException("La Localidad especificada no existe.");
 
             // Beginning Transaction so we can create Usuario and Horario in the same transaction
             _usuarioRepo.BeginTransaction();

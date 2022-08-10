@@ -98,7 +98,6 @@ namespace Alquilar.DAL
             inmueble.Habitaciones = newInmueble.Habitaciones;
             inmueble.Baños = newInmueble.Baños;
             inmueble.Ambientes = newInmueble.Ambientes;
-            //inmueble.IdInmuebleExterno = newInmueble.IdInmuebleExterno;
             inmueble.FechaHastaAlquilada = newInmueble.FechaHastaAlquilada;
             inmueble.IdTipoInmueble = newInmueble.IdTipoInmueble;
             inmueble.Imagenes = newInmueble.Imagenes;
