@@ -38,11 +38,13 @@ namespace Alquilar.API.Controllers
                 Ambientes = x.Ambientes,
                 Baños = x.Baños,
                 Departamento = x.Departamento,
+                Habitaciones = x.Habitaciones,
                 NombreVendedor = x.Usuario.Nombre,
                 NombreTipoInmueble = x.TipoInmueble.Nombre,
                 Ubicacion = x.Localidad.NombreCompleto,
                 UrlImagenPresentacion = x.Imagenes.FirstOrDefault()?.Url
             }).ToList();
+
 
             return Ok(formattedInmuebles);
         }

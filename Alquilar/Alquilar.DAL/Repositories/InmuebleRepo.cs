@@ -27,20 +27,25 @@ namespace Alquilar.DAL
 
             if (rq != null)
             {
-                if (rq.Habitaciones.HasValue)
-                    query = query.Where(x => x.Habitaciones == rq.Habitaciones.Value);
+                if (rq.HabitacionesMin.HasValue)
+                    query = query.Where(x => x.Habitaciones >= rq.HabitacionesMin.Value);
+                if (rq.HabitacionesMax.HasValue)
+                    query = query.Where(x => x.Habitaciones <= rq.HabitacionesMax.Value);
 
-                if (rq.Banos.HasValue)
-                    query = query.Where(x => x.Baños == rq.Banos.Value);
+                if (rq.BanosMin.HasValue)
+                    query = query.Where(x => x.Baños >= rq.BanosMin.Value);
+                if (rq.BanosMax.HasValue)
+                    query = query.Where(x => x.Baños <= rq.BanosMax.Value);
 
-                if (rq.Habitaciones.HasValue)
-                    query = query.Where(x => x.Habitaciones == rq.Habitaciones.Value);
+                if (rq.AmbientesMin.HasValue)
+                    query = query.Where(x => x.Ambientes >= rq.AmbientesMin.Value);
+                if (rq.AmbientesMax.HasValue)
+                    query = query.Where(x => x.Ambientes <= rq.AmbientesMax.Value);
 
-                if (rq.Ambientes.HasValue)
-                    query = query.Where(x => x.Ambientes == rq.Ambientes.Value);
-
-                if (rq.FechaDisponibilidad.HasValue)
-                    query = query.Where(x => !x.FechaHastaAlquilada.HasValue || x.FechaHastaAlquilada < rq.FechaDisponibilidad);
+                if (rq.PrecioMin.HasValue)
+                    query = query.Where(x => x.Precio >= rq.PrecioMin.Value);
+                if (rq.PrecioMax.HasValue)
+                    query = query.Where(x => x.Precio <= rq.PrecioMax.Value);
 
                 if (rq.IdLocalidad.HasValue)
                     query = query.Where(x => x.IdLocalidad == rq.IdLocalidad.Value);
