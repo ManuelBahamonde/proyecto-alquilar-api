@@ -57,6 +57,7 @@ namespace Alquilar.API.Controllers
             return CreatedAtRoute(nameof(GetInmueble), new { idInmueble = newInmueble.IdInmueble }, newInmueble);
         }
 
+        [AllowAnonymous]
         [HttpGet("{idInmueble}", Name = "GetInmueble")]
         public IActionResult GetInmueble(int idInmueble)
         {

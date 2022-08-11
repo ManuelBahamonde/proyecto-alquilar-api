@@ -23,6 +23,7 @@ namespace Alquilar.DAL
                 .Include(x => x.Localidad).ThenInclude(x => x.Provincia)
                 .Include(x => x.Usuario)
                 .Include(x => x.Imagenes)
+                .Where(x => !x.FechaHastaAlquilada.HasValue || DateTime.Now > x.FechaHastaAlquilada)
                 .AsQueryable();
 
             if (rq != null)

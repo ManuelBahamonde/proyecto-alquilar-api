@@ -1,4 +1,5 @@
 ﻿using Alquilar.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Alquilar.API.Controllers
@@ -20,6 +21,7 @@ namespace Alquilar.API.Controllers
         #endregion
 
         #region Endpoints
+        [AllowAnonymous]
         [HttpGet("{idInmueble}")]
         public IActionResult GetHorariosForInmueble(int idInmueble)
         {
