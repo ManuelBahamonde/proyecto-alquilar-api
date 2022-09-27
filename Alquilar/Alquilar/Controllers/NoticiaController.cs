@@ -30,8 +30,8 @@ namespace Alquilar.API.Controllers
         #region Endpoints
 
         // Get
-            [HttpGet]
-            [AllowAnonymous]
+        [HttpGet]
+        [AllowAnonymous]
             public IActionResult GetNoticias()
             {
                 var noticias = _noticiaService.GetNoticias();
