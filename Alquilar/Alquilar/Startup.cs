@@ -39,6 +39,7 @@ namespace Alquilar
             services.AddScoped<LocalidadRepo>();
             services.AddScoped<ProvinciaRepo>();
             services.AddScoped<RolRepo>();
+            services.AddScoped<NoticiaRepo>();
             services.AddScoped<TipoInmuebleRepo>();
             services.AddScoped<ImagenRepo>();
             services.AddScoped<UsuarioRepo>();
@@ -52,6 +53,7 @@ namespace Alquilar
             services.AddScoped<LocalidadService>();
             services.AddScoped<ProvinciaService>();
             services.AddScoped<RolService>();
+            services.AddScoped<NoticiaService>();
             services.AddScoped<TipoInmuebleService>();
             services.AddScoped<ImagenService>();
             services.AddScoped<UsuarioService>();
