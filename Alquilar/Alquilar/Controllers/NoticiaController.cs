@@ -42,7 +42,7 @@ namespace Alquilar.API.Controllers
                     Titulo = x.Titulo,
                     Descripcion = x.Descripcion,
                 }).ToList();
-
+                // Devuelvo estado de respuesta 200
                 return Ok(formattedNoticias);
             }
 
@@ -53,9 +53,11 @@ namespace Alquilar.API.Controllers
                 var noticiaModel = _noticiaService.GetNoticiaById(idNoticia);
 
                 if (noticiaModel is null)
+                    // Devuelvo estado de respuesta 404
                     return NotFound();
 
-                return Ok(new NoticiaDTO
+               // Devuelvo estado de respuesta 200
+               return Ok(new NoticiaDTO
                 {
                     IdNoticia = noticiaModel.IdNoticia,
                     Titulo = noticiaModel.Titulo,
@@ -63,9 +65,9 @@ namespace Alquilar.API.Controllers
                 });
             }
 
-        // Create
+        // Create, Rq del tipo Post 
         // Devuelvo estado de respuesta 201
-            [HttpPost]
+        [HttpPost]
             public IActionResult CreateNoticia(NoticiaDTO noticia)
             {
                 var newNoticia = _noticiaService.CreateNoticia(noticia);
@@ -79,7 +81,8 @@ namespace Alquilar.API.Controllers
             {
                 _noticiaService.UpdateNoticia(idNoticia, noticia);
 
-                return NoContent();
+               // Devuelvo estado de respuesta 204
+               return NoContent();
             }
 
         // Delete
@@ -88,6 +91,7 @@ namespace Alquilar.API.Controllers
             {
                 _noticiaService.DeleteNoticia(idNoticia);
 
+                // Devuelvo estado de respuesta 204
                 return NoContent();
             }
             #endregion
