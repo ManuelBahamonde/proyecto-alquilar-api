@@ -154,7 +154,6 @@ namespace Alquilar.Services
         #region Helpers
         private static string CreatePasswordHash(string password)
         {
-            // TODO
             return password;
         }
         #endregion

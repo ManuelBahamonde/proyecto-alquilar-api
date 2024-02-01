@@ -62,7 +62,7 @@ namespace Alquilar.Services
                 IdUsuario = turnoAsignado.IdUsuario,
                 IdInmueble = turnoAsignado.IdInmueble,
                 Fecha = turnoAsignado.Fecha,
-                Estado = null, // TODO: make this variable to work if needed
+                Estado = null,
             };
 
             _turnoAsignadoRepo.CreateTurno(turnoModel);
