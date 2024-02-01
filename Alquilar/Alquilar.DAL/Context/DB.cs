@@ -25,6 +25,7 @@ namespace Alquilar.DAL
         public DbSet<Horario> Horario { get; set; }
         public DbSet<TurnoAsignado> TurnoAsignado { get; set; }
         public DbSet<Config> Config { get; set; }
+        public DbSet<Noticia> Noticia { get; set; }
         #endregion
     }
 }
